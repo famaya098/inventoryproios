@@ -30,3 +30,5 @@ final class inventoryproiosUITestsLaunchTests: XCTestCase {
         add(attachment)
     }
 }
+
+

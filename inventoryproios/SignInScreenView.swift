@@ -5,14 +5,18 @@
 //  Created by Administrador on 24/3/24.
 //
 
+
 import SwiftUI
+import FirebaseAuth
 
 struct SignInScreenView: View {
-    @Environment(\.presentationMode) var presentationMode // Para controlar la navegación
+    @Environment(\.presentationMode) var presentationMode
     
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
+    @State private var signInError: ErrorModel? = nil
+    @State private var isLoggedIn: Bool = false
     
     var body: some View {
         NavigationView {
@@ -56,7 +60,7 @@ struct SignInScreenView: View {
                     .padding(.top, 10)
                     
                     Button(action: {
-                        
+                        signIn()
                     }) {
                         Text("Ingresar")
                             .foregroundColor(.white)
@@ -87,8 +91,36 @@ struct SignInScreenView: View {
                         .foregroundColor(Color("PrimaryColor"))
                 }
             )
+            .alert(item: $signInError) { error in
+                Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
+            }
+        }
+        .fullScreenCover(isPresented: $isLoggedIn, content: HomePageScreenView.init)
+    }
+    
+    private func signIn() {
+        
+        guard !email.isEmpty else {
+            signInError = ErrorModel(message: "Ingrese su correo electrónico.")
+            return
+        }
+        guard !password.isEmpty else {
+            signInError = ErrorModel(message: "Ingrese su contraseña.")
+            return
+        }
+        
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                signInError = ErrorModel(message: error.localizedDescription)
+            } else {
+                
+                isLoggedIn = true
+            }
         }
     }
 }
 
-
+struct ErrorModel: Identifiable {
+    var id = UUID()
+    var message: String
+}

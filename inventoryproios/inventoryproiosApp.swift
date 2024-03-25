@@ -6,13 +6,18 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct inventoryproiosApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            
+            WelcomeScreenView()
         }
     }
+    
+    init() {
+        FirebaseApp.configure()
+    }
 }
-
