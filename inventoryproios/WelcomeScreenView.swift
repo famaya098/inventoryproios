@@ -36,7 +36,7 @@ struct WelcomeScreenView: View {
                                 .foregroundColor(Color.white)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color("PrimaryColor"))
+                                .background(ColorName.light_green_color_132D39)
                                 .cornerRadius(50.0)
                                 .shadow(color: Color.black.opacity(0.08), radius: 60, x: 0.0, y: 16)
                                 .padding(.vertical)

@@ -7,16 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		834D88B72BB0C4FA00656167 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 834D88B62BB0C4F900656167 /* GoogleService-Info.plist */; };
+		810148C72BBCF98000803E2A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 810148C62BBCF98000803E2A /* FirebaseAnalytics */; };
+		810148C92BBCF98000803E2A /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 810148C82BBCF98000803E2A /* FirebaseAnalyticsOnDeviceConversion */; };
+		810148CB2BBCF98000803E2A /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 810148CA2BBCF98000803E2A /* FirebaseAnalyticsSwift */; };
+		810148CD2BBCF98000803E2A /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 810148CC2BBCF98000803E2A /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		810148CF2BBCF98000803E2A /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 810148CE2BBCF98000803E2A /* FirebaseAppCheck */; };
+		81CDAE672BB6614600108DD5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81CDAE662BB6614600108DD5 /* GoogleService-Info.plist */; };
+		81CDAE6A2BB6668D00108DD5 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CDAE692BB6668D00108DD5 /* HeaderView.swift */; };
+		81CDAE6D2BB6684400108DD5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CDAE6C2BB6684400108DD5 /* Constants.swift */; };
 		834D88BA2BB0C82900656167 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 834D88B92BB0C82900656167 /* FirebaseAuth */; };
 		834D88BE2BB0C97200656167 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834D88BD2BB0C97200656167 /* AppDelegate.swift */; };
 		834D88C02BB0CB5500656167 /* HomePageScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834D88BF2BB0CB5500656167 /* HomePageScreenView.swift */; };
-		834D88C22BB0CE8D00656167 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 834D88C12BB0CE8C00656167 /* GoogleService-Info.plist */; };
 		83E728872BB088F100ADCEB2 /* inventoryproiosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728862BB088F100ADCEB2 /* inventoryproiosApp.swift */; };
 		83E728892BB088F100ADCEB2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728882BB088F100ADCEB2 /* ContentView.swift */; };
 		83E7288B2BB088F300ADCEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83E7288A2BB088F300ADCEB2 /* Assets.xcassets */; };
 		83E7288E2BB088F300ADCEB2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83E7288D2BB088F300ADCEB2 /* Preview Assets.xcassets */; };
-		83E728982BB088F300ADCEB2 /* inventoryproiosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728972BB088F300ADCEB2 /* inventoryproiosTests.swift */; };
 		83E728A22BB088F300ADCEB2 /* inventoryproiosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728A12BB088F300ADCEB2 /* inventoryproiosUITests.swift */; };
 		83E728A42BB088F300ADCEB2 /* inventoryproiosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728A32BB088F300ADCEB2 /* inventoryproiosUITestsLaunchTests.swift */; };
 		83E728B12BB08ABD00ADCEB2 /* WelcomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728B02BB08ABD00ADCEB2 /* WelcomeScreenView.swift */; };
@@ -41,17 +46,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		834D88B62BB0C4F900656167 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		81CDAE662BB6614600108DD5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		81CDAE692BB6668D00108DD5 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		81CDAE6C2BB6684400108DD5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		834D88BD2BB0C97200656167 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		834D88BF2BB0CB5500656167 /* HomePageScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageScreenView.swift; sourceTree = "<group>"; };
-		834D88C12BB0CE8C00656167 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		83E728832BB088F100ADCEB2 /* inventoryproios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inventoryproios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E728862BB088F100ADCEB2 /* inventoryproiosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inventoryproiosApp.swift; sourceTree = "<group>"; };
 		83E728882BB088F100ADCEB2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		83E7288A2BB088F300ADCEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		83E7288D2BB088F300ADCEB2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		83E728932BB088F300ADCEB2 /* inventoryproiosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = inventoryproiosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		83E728972BB088F300ADCEB2 /* inventoryproiosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inventoryproiosTests.swift; sourceTree = "<group>"; };
 		83E7289D2BB088F300ADCEB2 /* inventoryproiosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = inventoryproiosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E728A12BB088F300ADCEB2 /* inventoryproiosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inventoryproiosUITests.swift; sourceTree = "<group>"; };
 		83E728A32BB088F300ADCEB2 /* inventoryproiosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inventoryproiosUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -64,6 +69,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				810148CB2BBCF98000803E2A /* FirebaseAnalyticsSwift in Frameworks */,
+				810148CD2BBCF98000803E2A /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				810148C72BBCF98000803E2A /* FirebaseAnalytics in Frameworks */,
+				810148C92BBCF98000803E2A /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				810148CF2BBCF98000803E2A /* FirebaseAppCheck in Frameworks */,
 				834D88BA2BB0C82900656167 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,11 +95,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		81CDAE682BB6665A00108DD5 /* encabezado */ = {
+			isa = PBXGroup;
+			children = (
+				81CDAE692BB6668D00108DD5 /* HeaderView.swift */,
+			);
+			path = encabezado;
+			sourceTree = "<group>";
+		};
+		81CDAE6B2BB6683000108DD5 /* utilidades */ = {
+			isa = PBXGroup;
+			children = (
+				81CDAE6C2BB6684400108DD5 /* Constants.swift */,
+			);
+			path = utilidades;
+			sourceTree = "<group>";
+		};
 		83E7287A2BB088F100ADCEB2 = {
 			isa = PBXGroup;
 			children = (
+				81CDAE6B2BB6683000108DD5 /* utilidades */,
+				81CDAE682BB6665A00108DD5 /* encabezado */,
 				83E728852BB088F100ADCEB2 /* inventoryproios */,
-				83E728962BB088F300ADCEB2 /* inventoryproiosTests */,
 				83E728A02BB088F300ADCEB2 /* inventoryproiosUITests */,
 				83E728842BB088F100ADCEB2 /* Products */,
 			);
@@ -112,12 +139,11 @@
 				83E728882BB088F100ADCEB2 /* ContentView.swift */,
 				83E7288A2BB088F300ADCEB2 /* Assets.xcassets */,
 				834D88BD2BB0C97200656167 /* AppDelegate.swift */,
-				834D88B62BB0C4F900656167 /* GoogleService-Info.plist */,
 				83E7288C2BB088F300ADCEB2 /* Preview Content */,
 				83E728B02BB08ABD00ADCEB2 /* WelcomeScreenView.swift */,
 				83E728B22BB08BB700ADCEB2 /* SignInScreenView.swift */,
 				834D88BF2BB0CB5500656167 /* HomePageScreenView.swift */,
-				834D88C12BB0CE8C00656167 /* GoogleService-Info.plist */,
+				81CDAE662BB6614600108DD5 /* GoogleService-Info.plist */,
 			);
 			path = inventoryproios;
 			sourceTree = "<group>";
@@ -128,14 +154,6 @@
 				83E7288D2BB088F300ADCEB2 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		83E728962BB088F300ADCEB2 /* inventoryproiosTests */ = {
-			isa = PBXGroup;
-			children = (
-				83E728972BB088F300ADCEB2 /* inventoryproiosTests.swift */,
-			);
-			path = inventoryproiosTests;
 			sourceTree = "<group>";
 		};
 		83E728A02BB088F300ADCEB2 /* inventoryproiosUITests */ = {
@@ -165,6 +183,11 @@
 			name = inventoryproios;
 			packageProductDependencies = (
 				834D88B92BB0C82900656167 /* FirebaseAuth */,
+				810148C62BBCF98000803E2A /* FirebaseAnalytics */,
+				810148C82BBCF98000803E2A /* FirebaseAnalyticsOnDeviceConversion */,
+				810148CA2BBCF98000803E2A /* FirebaseAnalyticsSwift */,
+				810148CC2BBCF98000803E2A /* FirebaseAnalyticsWithoutAdIdSupport */,
+				810148CE2BBCF98000803E2A /* FirebaseAppCheck */,
 			);
 			productName = inventoryproios;
 			productReference = 83E728832BB088F100ADCEB2 /* inventoryproios.app */;
@@ -258,9 +281,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				83E7288E2BB088F300ADCEB2 /* Preview Assets.xcassets in Resources */,
-				834D88C22BB0CE8D00656167 /* GoogleService-Info.plist in Resources */,
 				83E7288B2BB088F300ADCEB2 /* Assets.xcassets in Resources */,
-				834D88B72BB0C4FA00656167 /* GoogleService-Info.plist in Resources */,
+				81CDAE672BB6614600108DD5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,7 +312,9 @@
 				834D88C02BB0CB5500656167 /* HomePageScreenView.swift in Sources */,
 				83E728892BB088F100ADCEB2 /* ContentView.swift in Sources */,
 				834D88BE2BB0C97200656167 /* AppDelegate.swift in Sources */,
+				81CDAE6D2BB6684400108DD5 /* Constants.swift in Sources */,
 				83E728872BB088F100ADCEB2 /* inventoryproiosApp.swift in Sources */,
+				81CDAE6A2BB6668D00108DD5 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,7 +322,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83E728982BB088F300ADCEB2 /* inventoryproiosTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,7 +484,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -490,7 +513,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -631,6 +654,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		810148C62BBCF98000803E2A /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAnalytics;
+		};
+		810148C82BBCF98000803E2A /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		810148CA2BBCF98000803E2A /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAnalyticsSwift;
+		};
+		810148CC2BBCF98000803E2A /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		810148CE2BBCF98000803E2A /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAppCheck;
+		};
 		834D88B92BB0C82900656167 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 834D88B82BB0C82900656167 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

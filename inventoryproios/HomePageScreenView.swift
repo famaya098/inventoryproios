@@ -9,9 +9,12 @@ import SwiftUI
 
 struct HomePageScreenView: View {
     var body: some View {
-        Text("Welcome to InventoryPro!")
-            .font(.title)
-            .fontWeight(.bold)
+        VStack {
+            HeaderView()
+            Text("Welcome to InventoryPro!")
+                .font(.title)
+                .fontWeight(.bold)
+        }   
     }
 }
 
