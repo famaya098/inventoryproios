@@ -29,13 +29,7 @@ struct PrimaryButton: View {
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
             .padding()
-            .background(Color("PrimaryColor"))
+            .background(ColorName.light_green_color_132D39)
             .cornerRadius(50)
     }
 }
-
-
-
-
-
-

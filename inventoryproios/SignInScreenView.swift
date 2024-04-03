@@ -68,13 +68,13 @@ struct SignInScreenView: View {
                             .padding(.vertical)
                             .frame(maxWidth: .infinity)
                     }
-                    .background(Color("PrimaryColor"))
+                    .background(ColorName.light_green_color_132D39)
                     .cornerRadius(50.0)
                     .shadow(color: Color.black.opacity(0.08), radius: 60, x: 0.0, y: 16)
                     .padding(.vertical)
                     
                     Text("¿Olvidaste tu contraseña?")
-                        .foregroundColor(Color("PrimaryColor"))
+                        .foregroundColor(ColorName.light_green_color_132D39)
                         .padding(.top, 10)
                     
                     Spacer()
@@ -88,7 +88,7 @@ struct SignInScreenView: View {
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "arrow.left")
-                        .foregroundColor(Color("PrimaryColor"))
+                        .foregroundColor(ColorName.light_green_color_132D39)
                 }
             )
             .alert(item: $signInError) { error in
