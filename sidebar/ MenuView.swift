@@ -8,37 +8,45 @@
 import SwiftUI
 
 struct MenuView: View {
+    
     var body: some View {
         VStack (alignment: .leading) {
             HStack {
                 Image("William_Penado_profile_picture")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 80, height: 25)
+                    .frame(width: 80, height: 50)
                     .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/, style: /*@START_MENU_TOKEN@*/FillStyle()/*@END_MENU_TOKEN@*/)
                     .shadow(color: .gray, radius: 20, x: 0, y: 2)
-                    .offset(x: -30, y: 15)
+                    .offset(x: -10, y: 15)
                 VStack {
                     Text(MenuLateral.nombre_de_perfil)
+                        .lineLimit(1)
                         .foregroundColor(.white)
-                        .font(.system(size: 12, weight: .regular, design: .default))
-                        .offset(x: -40, y: 15)
+                        .font(.system(size: 70))
+                        .minimumScaleFactor(0.15)
+                        .offset(x: -20, y: 25)
                     HStack {
                         Image(systemName: "circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 10)
                             .foregroundColor(.green)
-                            .offset(x: -50, y: 20)
+                            .offset(x: -30)
                         Text("En línea")
+                            .lineLimit(1)
                             .foregroundColor(.white)
-                            .font(.system(size: 12, weight: .regular, design: .default))
-                            .offset(x: -50, y: 20)
+                            .font(.system(size: 70))
+                            .minimumScaleFactor(0.15)
+                            .offset(x: -35)
                     }
                 }
-            }.padding(.top, 25)
+            }.padding(.top, 80)
             HStack {
                 Text(MenuLateral.etiqueta_de_menu)
                     .font(.headline)
                     .foregroundColor(.white)
-            }.padding(.top, 25)
+            }.padding(.top, 5)
             HStack {
                 Image(systemName: "house.circle.fill")
                     .foregroundColor(.white)
@@ -111,7 +119,7 @@ struct MenuView: View {
                     .foregroundColor(.white)
                     .font(.headline)
             }.padding(.top, 25)
-            Spacer()
+            Spacer() 
         }.padding()
             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
             .background(Color(ColorName.dark_green_color_132D39))
