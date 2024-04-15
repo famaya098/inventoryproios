@@ -19,6 +19,11 @@
 		834D88BA2BB0C82900656167 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 834D88B92BB0C82900656167 /* FirebaseAuth */; };
 		834D88BE2BB0C97200656167 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834D88BD2BB0C97200656167 /* AppDelegate.swift */; };
 		834D88C02BB0CB5500656167 /* HomePageScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834D88BF2BB0CB5500656167 /* HomePageScreenView.swift */; };
+		8385C4462BCD87CE00A97444 /* ProductosScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C4452BCD87CE00A97444 /* ProductosScreen.swift */; };
+		8385C4482BCD87F500A97444 /* AgregarTransac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C4472BCD87F500A97444 /* AgregarTransac.swift */; };
+		8385C44A2BCD884500A97444 /* ReporteInventarioScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C4492BCD884500A97444 /* ReporteInventarioScreen.swift */; };
+		8385C44C2BCD886F00A97444 /* ReporteTransac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C44B2BCD886F00A97444 /* ReporteTransac.swift */; };
+		8385C44E2BCDB8B600A97444 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C44D2BCDB8B600A97444 /* SessionManager.swift */; };
 		83E728872BB088F100ADCEB2 /* inventoryproiosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728862BB088F100ADCEB2 /* inventoryproiosApp.swift */; };
 		83E728892BB088F100ADCEB2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728882BB088F100ADCEB2 /* ContentView.swift */; };
 		83E7288B2BB088F300ADCEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83E7288A2BB088F300ADCEB2 /* Assets.xcassets */; };
@@ -53,6 +58,12 @@
 		81CDAE6C2BB6684400108DD5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		834D88BD2BB0C97200656167 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		834D88BF2BB0CB5500656167 /* HomePageScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageScreenView.swift; sourceTree = "<group>"; };
+		8385C4452BCD87CE00A97444 /* ProductosScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductosScreen.swift; sourceTree = "<group>"; };
+		8385C4472BCD87F500A97444 /* AgregarTransac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgregarTransac.swift; sourceTree = "<group>"; };
+		8385C4492BCD884500A97444 /* ReporteInventarioScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReporteInventarioScreen.swift; sourceTree = "<group>"; };
+		8385C44B2BCD886F00A97444 /* ReporteTransac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReporteTransac.swift; path = encabezado/ReporteTransac.swift; sourceTree = SOURCE_ROOT; };
+		8385C44D2BCDB8B600A97444 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		8385C45F2BCDDE5D00A97444 /* inventoryproiosTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inventoryproiosTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		83E728832BB088F100ADCEB2 /* inventoryproios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inventoryproios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E728862BB088F100ADCEB2 /* inventoryproiosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inventoryproiosApp.swift; sourceTree = "<group>"; };
 		83E728882BB088F100ADCEB2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -152,9 +163,14 @@
 				834D88BD2BB0C97200656167 /* AppDelegate.swift */,
 				83E7288C2BB088F300ADCEB2 /* Preview Content */,
 				83E728B02BB08ABD00ADCEB2 /* WelcomeScreenView.swift */,
+				8385C44D2BCDB8B600A97444 /* SessionManager.swift */,
 				83E728B22BB08BB700ADCEB2 /* SignInScreenView.swift */,
 				834D88BF2BB0CB5500656167 /* HomePageScreenView.swift */,
 				81CDAE662BB6614600108DD5 /* GoogleService-Info.plist */,
+				8385C4452BCD87CE00A97444 /* ProductosScreen.swift */,
+				8385C4472BCD87F500A97444 /* AgregarTransac.swift */,
+				8385C4492BCD884500A97444 /* ReporteInventarioScreen.swift */,
+				8385C44B2BCD886F00A97444 /* ReporteTransac.swift */,
 			);
 			path = inventoryproios;
 			sourceTree = "<group>";
@@ -163,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				83E7288D2BB088F300ADCEB2 /* Preview Assets.xcassets */,
+				8385C45F2BCDDE5D00A97444 /* inventoryproiosTests-Bridging-Header.h */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -255,6 +272,7 @@
 					};
 					83E728922BB088F300ADCEB2 = {
 						CreatedOnToolsVersion = 15.3;
+						LastSwiftMigration = 1530;
 						TestTargetID = 83E728822BB088F100ADCEB2;
 					};
 					83E7289C2BB088F300ADCEB2 = {
@@ -274,6 +292,7 @@
 			mainGroup = 83E7287A2BB088F100ADCEB2;
 			packageReferences = (
 				834D88B82BB0C82900656167 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8385C4582BCDC7C200A97444 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			productRefGroup = 83E728842BB088F100ADCEB2 /* Products */;
 			projectDirPath = "";
@@ -321,11 +340,16 @@
 				83E728B32BB08BB700ADCEB2 /* SignInScreenView.swift in Sources */,
 				814B9A3E2BBE0CCD00960D29 /*  MenuView.swift in Sources */,
 				83E728B12BB08ABD00ADCEB2 /* WelcomeScreenView.swift in Sources */,
+				8385C4462BCD87CE00A97444 /* ProductosScreen.swift in Sources */,
+				8385C44C2BCD886F00A97444 /* ReporteTransac.swift in Sources */,
+				8385C44A2BCD884500A97444 /* ReporteInventarioScreen.swift in Sources */,
+				8385C44E2BCDB8B600A97444 /* SessionManager.swift in Sources */,
 				834D88C02BB0CB5500656167 /* HomePageScreenView.swift in Sources */,
 				83E728892BB088F100ADCEB2 /* ContentView.swift in Sources */,
 				834D88BE2BB0C97200656167 /* AppDelegate.swift in Sources */,
 				81CDAE6D2BB6684400108DD5 /* Constants.swift in Sources */,
 				83E728872BB088F100ADCEB2 /* inventoryproiosApp.swift in Sources */,
+				8385C4482BCD87F500A97444 /* AgregarTransac.swift in Sources */,
 				81CDAE6A2BB6668D00108DD5 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -544,6 +568,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -552,6 +577,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = utec.inventoryproiosTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "inventoryproios/Preview Content/inventoryproiosTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/inventoryproios.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/inventoryproios";
@@ -563,6 +590,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -571,6 +599,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = utec.inventoryproiosTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "inventoryproios/Preview Content/inventoryproiosTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/inventoryproios.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/inventoryproios";
@@ -661,6 +690,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 10.23.0;
+			};
+		};
+		8385C4582BCDC7C200A97444 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

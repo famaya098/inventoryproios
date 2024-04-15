@@ -1,5 +1,3 @@
-
-
 //
 //  WelcomeScreenView.swift
 //  inventoryproios

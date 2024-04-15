@@ -7,16 +7,19 @@
 
 import FirebaseAuth
 
+
 class SessionManager: ObservableObject {
     @Published var isLoggedIn: Bool = false
     
-    func signOut() {
+    func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
         do {
             try Auth.auth().signOut()
             UserDefaults.standard.removeObject(forKey: "lastLoggedInEmail")
             isLoggedIn = false
+            completion(.success(()))
         } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
+            completion(.failure(signOutError))
         }
     }
+
 }

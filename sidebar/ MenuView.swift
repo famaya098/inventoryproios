@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MenuView: View {
+    @EnvironmentObject var sessionManager: SessionManager
+        
     var body: some View {
         VStack (alignment: .leading) {
             HStack {
@@ -111,14 +113,36 @@ struct MenuView: View {
                     .foregroundColor(.white)
                     .font(.headline)
             }.padding(.top, 25)
-            Spacer()
-        }.padding()
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-            .background(Color(ColorName.dark_green_color_132D39))
-            .edgesIgnoringSafeArea(.all)
-    }
-}
+            HStack {
+                      Image(systemName: "lock")
+                          .foregroundColor(.white)
+                          .imageScale(.large)
+                Button(action: {
+                    sessionManager.signOut { result in
+                        switch result {
+                        case .success:
+                            if let window = UIApplication.shared.windows.first {
+                                window.rootViewController = UIHostingController(rootView: SignInScreenView().environmentObject(SessionManager()))
+                                window.makeKeyAndVisible()
+                            }
+                        case .failure(let error):
+                            print("Error signing out: \(error)")
+                        }
+                    }
+                }) {
+                    Text("Cerrar sesión")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                }
 
+                  }.padding(.top, 25)
+                  Spacer()
+              }.padding()
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .background(Color(ColorName.dark_green_color_132D39))
+              .edgesIgnoringSafeArea(.all)
+          }
+      }
 struct MenuView_Preview: PreviewProvider {
     static var previews: some View {
         MenuView()

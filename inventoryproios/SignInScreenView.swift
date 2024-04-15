@@ -85,18 +85,27 @@ struct SignInScreenView: View {
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    if let window = UIApplication.shared.windows.first {
+                        window.rootViewController = UIHostingController(rootView: WelcomeScreenView().environmentObject(SessionManager()))
+                        window.makeKeyAndVisible()
+                    }
                 }) {
                     Image(systemName: "arrow.left")
                         .foregroundColor(ColorName.light_green_color_132D39)
                 }
             )
+
             .alert(item: $signInError) { error in
                 Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
             }
         }
-        .fullScreenCover(isPresented: $isLoggedIn, content: HomePageScreenView.init)
-    }
+        .fullScreenCover(isPresented: $isLoggedIn) {
+                    HomePageScreenView()
+                }
+                .onDisappear {
+                    UserDefaults.standard.set(email, forKey: "lastLoggedInEmail")
+                }
+            }
     
     private func signIn() {
         

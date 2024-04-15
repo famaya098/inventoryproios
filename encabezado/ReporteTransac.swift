@@ -5,4 +5,12 @@
 //  Created by Administrador on 15/4/24.
 //
 
-import Foundation
+import SwiftUI
+
+struct ReporteTransac: View {
+    var body: some View {
+        Text("¡Bienvenido a Reporte Transacciones!")
+            .font(.title)
+            .foregroundColor(.black)
+    }
+}

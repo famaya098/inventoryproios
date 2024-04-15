@@ -10,14 +10,12 @@ import Firebase
 
 @main
 struct inventoryproiosApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
-            
             WelcomeScreenView()
+                .environmentObject(appDelegate.sessionManager)
         }
-    }
-    
-    init() {
-        FirebaseApp.configure()
     }
 }
