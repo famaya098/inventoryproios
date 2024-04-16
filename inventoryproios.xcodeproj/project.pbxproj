@@ -24,6 +24,7 @@
 		8385C44A2BCD884500A97444 /* ReporteInventarioScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C4492BCD884500A97444 /* ReporteInventarioScreen.swift */; };
 		8385C44C2BCD886F00A97444 /* ReporteTransac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C44B2BCD886F00A97444 /* ReporteTransac.swift */; };
 		8385C44E2BCDB8B600A97444 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C44D2BCDB8B600A97444 /* SessionManager.swift */; };
+		8385C4692BCE12DD00A97444 /* CreacionUsuarios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C4682BCE12DD00A97444 /* CreacionUsuarios.swift */; };
 		83E728872BB088F100ADCEB2 /* inventoryproiosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728862BB088F100ADCEB2 /* inventoryproiosApp.swift */; };
 		83E728892BB088F100ADCEB2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728882BB088F100ADCEB2 /* ContentView.swift */; };
 		83E7288B2BB088F300ADCEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83E7288A2BB088F300ADCEB2 /* Assets.xcassets */; };
@@ -64,6 +65,7 @@
 		8385C44B2BCD886F00A97444 /* ReporteTransac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReporteTransac.swift; path = encabezado/ReporteTransac.swift; sourceTree = SOURCE_ROOT; };
 		8385C44D2BCDB8B600A97444 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		8385C45F2BCDDE5D00A97444 /* inventoryproiosTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inventoryproiosTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		8385C4682BCE12DD00A97444 /* CreacionUsuarios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreacionUsuarios.swift; sourceTree = "<group>"; };
 		83E728832BB088F100ADCEB2 /* inventoryproios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inventoryproios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E728862BB088F100ADCEB2 /* inventoryproiosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inventoryproiosApp.swift; sourceTree = "<group>"; };
 		83E728882BB088F100ADCEB2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				834D88BF2BB0CB5500656167 /* HomePageScreenView.swift */,
 				81CDAE662BB6614600108DD5 /* GoogleService-Info.plist */,
 				8385C4452BCD87CE00A97444 /* ProductosScreen.swift */,
+				8385C4682BCE12DD00A97444 /* CreacionUsuarios.swift */,
 				8385C4472BCD87F500A97444 /* AgregarTransac.swift */,
 				8385C4492BCD884500A97444 /* ReporteInventarioScreen.swift */,
 				8385C44B2BCD886F00A97444 /* ReporteTransac.swift */,
@@ -348,6 +351,7 @@
 				83E728892BB088F100ADCEB2 /* ContentView.swift in Sources */,
 				834D88BE2BB0C97200656167 /* AppDelegate.swift in Sources */,
 				81CDAE6D2BB6684400108DD5 /* Constants.swift in Sources */,
+				8385C4692BCE12DD00A97444 /* CreacionUsuarios.swift in Sources */,
 				83E728872BB088F100ADCEB2 /* inventoryproiosApp.swift in Sources */,
 				8385C4482BCD87F500A97444 /* AgregarTransac.swift in Sources */,
 				81CDAE6A2BB6668D00108DD5 /* HeaderView.swift in Sources */,

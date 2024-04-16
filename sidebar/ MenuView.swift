@@ -105,14 +105,18 @@ struct MenuView: View {
                     .foregroundColor(.white)
                     .font(.headline)
             }.padding(.top, 25)
-            HStack {
-                Image(systemName: "lock")
-                    .foregroundColor(.white)
-                    .imageScale(.large)
-                Text(MenuLateral.administrarAcceso)
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }.padding(.top, 25)
+            NavigationLink(destination: CreacionUsuarios()) {
+                HStack {
+                    Image(systemName: "lock")
+                        .foregroundColor(.white)
+                        .imageScale(.large)
+                    Text(MenuLateral.administrarAcceso)
+                        .foregroundColor(.white)
+                        .font(.headline)
+                }
+            }
+            .padding(.top, 25)
+
             HStack {
                       Image(systemName: "lock")
                           .foregroundColor(.white)
