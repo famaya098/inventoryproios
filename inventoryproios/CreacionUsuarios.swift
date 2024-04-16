@@ -6,6 +6,10 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestoreInternal
+
+import FirebaseStorage
 
 struct CreacionUsuarios: View {
     @State private var nombres: String = ""
@@ -19,12 +23,16 @@ struct CreacionUsuarios: View {
     @State private var direccion: String = ""
     @State private var fechaNacimiento: Date = Date()
     @State private var foto: UIImage? = nil
-    @State private var fechaCreacion: Date = Date()
+    
     @State private var fechaActualizacion: Date = Date()
     @State private var estatus: String = ""
     @State private var creadopor: String = ""
 
+    let fechaCreacion = Date()
+    
     @State private var showingImagePicker = false
+    @State private var selectedImage: UIImage? = nil
+
     var body: some View {
         NavigationView {
             Form {
@@ -55,10 +63,6 @@ struct CreacionUsuarios: View {
                         TextField("Username", text: $username)
                     }
                     HStack {
-                        Image(systemName: "person.2.fill")
-                        TextField("Tipo Permiso", text: $tipoPermiso)
-                    }
-                    HStack {
                         Image(systemName: "phone.fill")
                         TextField("Teléfono", text: $telefono)
                             .keyboardType(.phonePad)
@@ -68,25 +72,38 @@ struct CreacionUsuarios: View {
                         TextField("Dirección", text: $direccion)
                     }
                     DatePicker("Fecha Nacimiento", selection: $fechaNacimiento, in: ...Date(), displayedComponents: .date)
+                    Button(action: {
+                        self.showingImagePicker = true
+                    }) {
+                        HStack {
+                            Image(systemName: "photo.on.rectangle")
+                            Text("Seleccionar Foto")
+                        }
+                    }
+                    .sheet(isPresented: $showingImagePicker) {
+                        ImagePicker(image: self.$selectedImage)
+                    }
                 }
-                
                 Section(header: Text("Información del Sistema").font(.headline)) {
-                    DatePicker("Fecha Creación", selection: $fechaCreacion, in: ...Date(), displayedComponents: .date)
+                    Text("Fecha Creación: \(formattedDate(date: fechaCreacion))")
+                                       
+                    Picker("Tipo Permiso", selection: $tipoPermiso) {
+                                           Text("Administrador").tag("Administrador")
+                                           Text("Usuario").tag("Usuario")
+                                       }
+                    Picker("Estatus", selection: $estatus) {
+                                           Text("Activo").tag("Activo")
+                                           Text("Inactivo").tag("Inactivo")
+                                       }
                     HStack {
                         Image(systemName: "person.crop.rectangle.fill")
                         TextField("Creado por", text: $creadopor)
                     }
-                    HStack {
-                        Image(systemName: "circle.fill")
-                        TextField("Estatus", text: $estatus)
-                    }
-                    // Agregar aquí la lógica para subir una imagen
-                    
                 }
-
                 Section {
                     Button(action: {
-                        // Añade la lógica para guardar los datos aquí
+                        guardarUsuarioEnFirebase()
+                        
                     }) {
                         Text("Guardar")
                             .frame(maxWidth: .infinity)
@@ -98,6 +115,86 @@ struct CreacionUsuarios: View {
                 }
             }
             .navigationBarTitle("Crear Usuario", displayMode: .inline)
-        }
-    }
-}
+                    }
+                }
+                
+            
+    func formattedDate(date: Date) -> String {
+           let formatter = DateFormatter()
+           formatter.dateStyle = .medium
+           formatter.timeStyle = .medium
+           return formatter.string(from: date)
+       }
+       
+       //guardar el usuario en Firebase
+       func guardarUsuarioEnFirebase() {
+           // uid único para el usuario
+           let uid = UUID().uuidString
+           
+           // referencia a la base de datos de Firebase
+           let db = Firestore.firestore()
+           
+           // diccionario con los datos del usuario
+           var usuarioData: [String: Any] = [
+               "uid": uid,
+               "nombres": nombres,
+               "apellidos": apellidos,
+               "email": email,
+               "dui": dui,
+               "username": username,
+               "tipoPermiso": tipoPermiso,
+               "telefono": telefono,
+               "direccion": direccion,
+               "fechaNacimiento": fechaNacimiento,
+               "fechaCreacion": fechaCreacion,
+               "fechaActualizacion": fechaActualizacion,
+               "estatus": estatus,
+               "creadopor": creadopor
+               // Agrega otros campos si los necesitas
+           ]
+           
+           // foto a Firebase Storage si está seleccionada
+           if let foto = foto {
+               guardarFotoEnFirebase(foto, uid: uid)
+           }
+           
+           // usuario a la colección "usuarios" en Firebase
+           db.collection("usuarios").document(uid).setData(usuarioData) { error in
+               if let error = error {
+                   print("Error al guardar el usuario: \(error.localizedDescription)")
+               } else {
+                   print("Usuario guardado exitosamente")
+                   
+                   // crear el usuario en la autenticación de Firebase
+                   Auth.auth().createUser(withEmail: email, password: contrasena) { authResult, error in
+                       if let error = error {
+                           print("Error al crear el usuario en la autenticación de Firebase: \(error.localizedDescription)")
+                       } else {
+                           print("Usuario creado exitosamente en la autenticación de Firebase")
+                       }
+                   }
+               }
+           }
+       }
+       
+       // guardar la foto en Firebase Storage
+       func guardarFotoEnFirebase(_ foto: UIImage, uid: String) {
+           // Convertir la imagen en datos JPEG
+           guard let fotoData = foto.jpegData(compressionQuality: 0.5) else {
+               print("Error al convertir la foto en datos")
+               return
+           }
+           
+           // referencia al archivo en Firebase Storage
+           let fotoRef = Storage.storage().reference().child("fotos_usuarios/\(uid).jpg")
+           
+           // subir la foto a Firebase Storage
+           fotoRef.putData(fotoData, metadata: nil) { metadata, error in
+               if let error = error {
+                   print("Error al subir la foto a Firebase Storage: \(error.localizedDescription)")
+               } else {
+                   print("Foto subida exitosamente a Firebase Storage")
+               }
+           }
+       }
+   }

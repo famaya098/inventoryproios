@@ -25,6 +25,10 @@
 		8385C44C2BCD886F00A97444 /* ReporteTransac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C44B2BCD886F00A97444 /* ReporteTransac.swift */; };
 		8385C44E2BCDB8B600A97444 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C44D2BCDB8B600A97444 /* SessionManager.swift */; };
 		8385C4692BCE12DD00A97444 /* CreacionUsuarios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C4682BCE12DD00A97444 /* CreacionUsuarios.swift */; };
+		83CAF4C22BCEC13B003F6962 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CAF4C12BCEC13B003F6962 /* ImagePicker.swift */; };
+		83CAF4C42BCED593003F6962 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 83CAF4C32BCED593003F6962 /* FirebaseDatabase */; };
+		83CAF4C62BCED593003F6962 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 83CAF4C52BCED593003F6962 /* FirebaseFirestore */; };
+		83CAF4C82BCED593003F6962 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 83CAF4C72BCED593003F6962 /* FirebaseStorage */; };
 		83E728872BB088F100ADCEB2 /* inventoryproiosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728862BB088F100ADCEB2 /* inventoryproiosApp.swift */; };
 		83E728892BB088F100ADCEB2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728882BB088F100ADCEB2 /* ContentView.swift */; };
 		83E7288B2BB088F300ADCEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83E7288A2BB088F300ADCEB2 /* Assets.xcassets */; };
@@ -66,6 +70,7 @@
 		8385C44D2BCDB8B600A97444 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		8385C45F2BCDDE5D00A97444 /* inventoryproiosTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inventoryproiosTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		8385C4682BCE12DD00A97444 /* CreacionUsuarios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreacionUsuarios.swift; sourceTree = "<group>"; };
+		83CAF4C12BCEC13B003F6962 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		83E728832BB088F100ADCEB2 /* inventoryproios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inventoryproios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E728862BB088F100ADCEB2 /* inventoryproiosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inventoryproiosApp.swift; sourceTree = "<group>"; };
 		83E728882BB088F100ADCEB2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -86,9 +91,12 @@
 			files = (
 				810148CB2BBCF98000803E2A /* FirebaseAnalyticsSwift in Frameworks */,
 				810148CD2BBCF98000803E2A /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				83CAF4C82BCED593003F6962 /* FirebaseStorage in Frameworks */,
 				810148C72BBCF98000803E2A /* FirebaseAnalytics in Frameworks */,
 				810148C92BBCF98000803E2A /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				810148CF2BBCF98000803E2A /* FirebaseAppCheck in Frameworks */,
+				83CAF4C62BCED593003F6962 /* FirebaseFirestore in Frameworks */,
+				83CAF4C42BCED593003F6962 /* FirebaseDatabase in Frameworks */,
 				834D88BA2BB0C82900656167 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,6 +182,7 @@
 				8385C4472BCD87F500A97444 /* AgregarTransac.swift */,
 				8385C4492BCD884500A97444 /* ReporteInventarioScreen.swift */,
 				8385C44B2BCD886F00A97444 /* ReporteTransac.swift */,
+				83CAF4C12BCEC13B003F6962 /* ImagePicker.swift */,
 			);
 			path = inventoryproios;
 			sourceTree = "<group>";
@@ -219,6 +228,9 @@
 				810148CA2BBCF98000803E2A /* FirebaseAnalyticsSwift */,
 				810148CC2BBCF98000803E2A /* FirebaseAnalyticsWithoutAdIdSupport */,
 				810148CE2BBCF98000803E2A /* FirebaseAppCheck */,
+				83CAF4C32BCED593003F6962 /* FirebaseDatabase */,
+				83CAF4C52BCED593003F6962 /* FirebaseFirestore */,
+				83CAF4C72BCED593003F6962 /* FirebaseStorage */,
 			);
 			productName = inventoryproios;
 			productReference = 83E728832BB088F100ADCEB2 /* inventoryproios.app */;
@@ -353,6 +365,7 @@
 				81CDAE6D2BB6684400108DD5 /* Constants.swift in Sources */,
 				8385C4692BCE12DD00A97444 /* CreacionUsuarios.swift in Sources */,
 				83E728872BB088F100ADCEB2 /* inventoryproiosApp.swift in Sources */,
+				83CAF4C22BCEC13B003F6962 /* ImagePicker.swift in Sources */,
 				8385C4482BCD87F500A97444 /* AgregarTransac.swift in Sources */,
 				81CDAE6A2BB6668D00108DD5 /* HeaderView.swift in Sources */,
 			);
@@ -533,7 +546,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = utec.inventoryproios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -562,7 +575,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = utec.inventoryproios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -731,6 +744,18 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 834D88B82BB0C82900656167 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		83CAF4C32BCED593003F6962 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseDatabase;
+		};
+		83CAF4C52BCED593003F6962 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseFirestore;
+		};
+		83CAF4C72BCED593003F6962 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
