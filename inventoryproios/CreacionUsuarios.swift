@@ -11,6 +11,12 @@ import FirebaseFirestoreInternal
 
 import FirebaseStorage
 
+
+struct AlertMessage {
+    var title: String
+    var message: String
+}
+
 struct CreacionUsuarios: View {
     @State private var nombres: String = ""
     @State private var apellidos: String = ""
@@ -34,13 +40,13 @@ struct CreacionUsuarios: View {
     @State private var selectedImage: UIImage? = nil
 
     // Firebase Authentication
-      @State private var signUpError: Error?
-      @State private var isLoggedIn: Bool = false
+      //@State private var signUpError: Error?
+      //@State private var isLoggedIn: Bool = false
     
     @Environment(\.presentationMode) var presentationMode
     
+    @State private var alertMessage: AlertMessage?
     @State private var showAlert = false
-    @State private var alertMessage = ""
     @State private var showSuccessNotification = false
     
     
@@ -128,22 +134,26 @@ struct CreacionUsuarios: View {
                 }
             }
             .navigationBarTitle("Crear Usuario", displayMode: .inline)
-                   
-                   .alert(isPresented: $showAlert) {
-                       Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-                   }
-                   
-                   .alert(isPresented: $showSuccessNotification) {
-                       Alert(
-                           title: Text("Éxito"),
-                           message: Text("\(username) ha sido creado con éxito."),
-                           dismissButton: .default(Text("OK")) {
-                               // Limpiar campos
-                               clearFields()
-                       })
-                   }
-               }
-           }
+                        .alert(isPresented: $showAlert) {
+                            if let alertMessage = alertMessage {
+                                return Alert(
+                                    title: Text(alertMessage.title),
+                                    message: Text(alertMessage.message),
+                                    dismissButton: .default(Text("OK")) {
+                                        handleAlertDismissed()
+                                    }
+                                )
+                            } else {
+                                return Alert(title: Text("Error"), message: Text("Se ha producido un error"), dismissButton: .default(Text("OK")))
+                            }
+                        }
+                    }
+                }
+
+                func handleAlertDismissed() {
+                    self.alertMessage = nil
+                }
+    
     func formattedDate(date: Date) -> String {
            let formatter = DateFormatter()
            formatter.dateStyle = .medium
@@ -170,27 +180,39 @@ struct CreacionUsuarios: View {
        
 //
     func signUp() {
-        guard !email.isEmpty && !contrasena.isEmpty && !nombres.isEmpty && !apellidos.isEmpty && !dui.isEmpty && !username.isEmpty && !tipoPermiso.isEmpty && !telefono.isEmpty && !direccion.isEmpty else {
-            
-            alertMessage = "Todos los campos son obligatorios"
-            showAlert = true
+        // Lógica de registro de usuario...
+        guard !email.isEmpty && !contrasena.isEmpty && !nombres.isEmpty && !apellidos.isEmpty && !dui.isEmpty && !username.isEmpty && !tipoPermiso.isEmpty && !telefono.isEmpty && !direccion.isEmpty && foto != nil && !creadopor.isEmpty else {
+            // Mostrar mensaje de error si algún campo está vacío
+            self.alertMessage = AlertMessage(title: "Error", message: "Todos los campos son obligatorios, incluyendo la foto y el campo 'Creado por'")
+            self.showAlert = true
+            print("Error: Campos vacíos")
             return
         }
-           
+
+        print("Todos los campos están completos. Continuando con el registro...")
+
         Auth.auth().createUser(withEmail: email, password: contrasena) { authResult, error in
             if let error = error {
-                
-                alertMessage = "Error al registrar usuario: \(error.localizedDescription)"
-                showAlert = true
+                // Mostrar mensaje de error si ocurre un error al registrar el usuario
+                self.alertMessage = AlertMessage(title: "Error", message: "Error al registrar usuario: \(error.localizedDescription)")
+                self.showAlert = true
+                print("Error al registrar usuario:", error.localizedDescription)
             } else {
-                
-                saveUserData()
-                
-                showSuccessNotification = true
+                // Usuario registrado exitosamente, guardar los demás datos en Realtime Database
+                self.alertMessage = AlertMessage(title: "Genial!", message: "\(username) ha sido creado con éxito.")
+                self.showAlert = true
+                saveUserData() // Mover la llamada a saveUserData() aquí
+                clearFields() // Limpiar los campos después de enviar la información correctamente
+                print("Usuario registrado exitosamente.")
             }
+        }
+    }
 
-           }
-       }
+
+
+
+
+
        
        func saveUserData() {
            guard let uid = Auth.auth().currentUser?.uid else {
