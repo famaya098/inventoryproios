@@ -35,7 +35,7 @@ struct CreacionUsuarios: View {
     @State private var estatus: String = "Activo"
     @State private var creadopor: String = ""
 
-    let fechaCreacion = Date()
+    @State private var fechaCreacion = Date()
     
     @State private var showingImagePicker = false
     @State private var selectedImage: UIImage? = nil
@@ -91,8 +91,36 @@ struct CreacionUsuarios: View {
                         TextField("Dirección", text: $direccion)
                     }
                     DatePicker("Fecha Nacimiento", selection: $fechaNacimiento, in: ...Date(), displayedComponents: .date)
+                    
+                    
+                    
+                    
+                }
+                
+                Section(header: Text("Agregar Foto").font(.headline)) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(width: 150, height: 150)
+                            .shadow(radius: 5)
+                        
+                        if let image = selectedImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 120, height: 120)
+                                .cornerRadius(10)
+                        } else {
+                            Image(systemName: "photo.on.rectangle")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 100, height: 100)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .padding()
                     Button(action: {
-                        self.showingImagePicker = true
+                        showingImagePicker = true
                     }) {
                         HStack {
                             Image(systemName: "photo.on.rectangle")
@@ -100,9 +128,11 @@ struct CreacionUsuarios: View {
                         }
                     }
                     .sheet(isPresented: $showingImagePicker) {
-                        ImagePicker(image: self.$selectedImage)
+                        ImagePicker(image: $selectedImage)
                     }
                 }
+                
+                
                 Section(header: Text("Información del Sistema").font(.headline)) {
                     Text("Fecha Creación: \(formattedDate(date: fechaCreacion))")
                                        
@@ -135,6 +165,10 @@ struct CreacionUsuarios: View {
                 }
             }
             .navigationBarTitle("Crear Usuario", displayMode: .inline)
+                        .onAppear {
+                            // Actualiza la fecha de creación cada vez que la vista aparezca
+                            fechaCreacion = Date()
+                                    }
                         .alert(isPresented: $showAlert) {
                             if let alertMessage = alertMessage {
                                 return Alert(
@@ -148,6 +182,7 @@ struct CreacionUsuarios: View {
                                 return Alert(title: Text("Error"), message: Text("Se ha producido un error"), dismissButton: .default(Text("OK")))
                             }
                         }
+            
                     }
                 }
 
@@ -177,6 +212,9 @@ struct CreacionUsuarios: View {
         fechaActualizacion = Date()
         estatus = "Activo"
         creadopor = ""
+        selectedImage = nil
+        fechaCreacion = Date()
+        
     }
        
 //

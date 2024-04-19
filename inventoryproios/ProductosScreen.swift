@@ -9,6 +9,7 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseDatabaseInternal
+import FirebaseStorage
 
 struct ProductosScreen: View {
     @State private var codigo: String = generateUniqueCode()
@@ -23,6 +24,8 @@ struct ProductosScreen: View {
     @State private var showingImagePicker = false
 
     @State private var createdUser: String = ""
+    
+    @State private var fechaCreacion = Date()
     
     var estatusOptions: [String] = ["Activo", "Inactivo", "Descontinuado"]
 
@@ -70,6 +73,7 @@ struct ProductosScreen: View {
                             Text(option)
                         }
                     }
+                    Text("Fecha Creación: \(formattedDate(date: fechaCreacion))")
                 }
 
                 Section(header: Text("Agregar Foto").font(.headline)) {
@@ -109,13 +113,13 @@ struct ProductosScreen: View {
                 Section(header: Text("Creado por").font(.headline)) {
                                     Text(createdUser)
                                 }
-
+             
 
 
 
                 Section {
                     Button(action: {
-                        // Aquí colocar la lógica para guardar los datos
+                        saveProduct()
                     }) {
                         Text("Guardar")
                             .frame(maxWidth: .infinity)
@@ -129,6 +133,7 @@ struct ProductosScreen: View {
             .navigationBarTitle("Añadir Producto", displayMode: .inline)
                    }
                    .onAppear {
+                       fechaCreacion = Date()
                        loadCreatedUser()
                    }
                }
@@ -137,7 +142,15 @@ struct ProductosScreen: View {
                    let uuid = UUID().uuidString
                    return uuid
                }
-               
+    
+    
+    func formattedDate(date: Date) -> String {
+           let formatter = DateFormatter()
+           formatter.dateStyle = .medium
+           formatter.timeStyle = .medium
+           return formatter.string(from: date)
+       }
+    
     private func loadCreatedUser() {
         guard let user = Auth.auth().currentUser else {
             // No hay usuario autenticado, establecer un valor predeterminado
@@ -154,6 +167,84 @@ struct ProductosScreen: View {
             } else {
                 self.createdUser = "Desconocido"
             }
-        }
-    }
-           }
+                    }
+                }
+
+                // Guardar el producto en Firebase Realtime Database y la foto en Firebase Storage
+                private func saveProduct() {
+                    // Verificar que los campos obligatorios no estén vacíos
+                    guard !nombre.isEmpty && !descripcion.isEmpty && !precioCompra.isEmpty && !precioVenta.isEmpty && !cantidad.isEmpty && !unidad.isEmpty else {
+                        // Mostrar un mensaje de error o alerta
+                        return
+                    }
+
+                    // Obtener una referencia a la base de datos y a Storage
+                    let dbRef = Database.database().reference()
+                    let storageRef = Storage.storage().reference()
+
+                    // Generar un nombre único para la imagen en Storage
+                    let imageRef = storageRef.child("productos/\(codigo).jpg")
+
+                    // Comprimir y subir la imagen seleccionada a Storage
+                    if let imageData = selectedImage?.jpegData(compressionQuality: 0.5) {
+                        imageRef.putData(imageData, metadata: nil) { (metadata, error) in
+                            if let error = error {
+                                print("Error al subir la imagen a Firebase Storage: \(error.localizedDescription)")
+                                // Manejar el error
+                            } else {
+                                // Obtener la URL de descarga de la imagen
+                                imageRef.downloadURL { (url, error) in
+                                    if let error = error {
+                                        print("Error al obtener la URL de descarga de la imagen: \(error.localizedDescription)")
+                                        // Manejar el error
+                                    } else if let downloadURL = url {
+                                        // Guardar los datos del producto en la base de datos
+                                        let productData: [String: Any] = [
+                                            "codigo": codigo,
+                                            "nombre": nombre,
+                                            "descripcion": descripcion,
+                                            "precioCompra": precioCompra,
+                                            "precioVenta": precioVenta,
+                                            "cantidad": cantidad,
+                                            "unidad": unidad,
+                                            "estatus": estatus,
+                                            "createdUser": createdUser,
+                                            "fechaCreacion": formattedDate(date: fechaCreacion), // Agrega la fecha de creación
+                                            "photoURL": downloadURL.absoluteString // URL de descarga de la imagen
+                                                                        ]
+
+                                        // Guardar los datos del producto en la base de datos
+                                        dbRef.child("productos").child(codigo).setValue(productData) { (error, ref) in
+                                            if let error = error {
+                                                print("Error al guardar los datos del producto en Firebase Realtime Database: \(error.localizedDescription)")
+                                                // Manejar el error
+                                            } else {
+                                                print("Producto guardado exitosamente en Firebase Realtime Database")
+                                                // Limpiar los campos después de guardar el producto
+                                                clearFields()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        // Mostrar un mensaje de error o alerta si no hay imagen seleccionada
+                        print("No se ha seleccionado ninguna imagen")
+                    }
+                }
+
+                // Limpiar los campos del formulario después de guardar el producto
+                private func clearFields() {
+                    nombre = ""
+                    descripcion = ""
+                    precioCompra = ""
+                    precioVenta = ""
+                    cantidad = ""
+                    unidad = ""
+                    estatus = "Activo"
+                    selectedImage = nil
+                    codigo = ProductosScreen.generateUniqueCode()
+                    fechaCreacion = Date()
+                }
+            }
