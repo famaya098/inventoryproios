@@ -5,6 +5,7 @@
 //  Created by Administrador on 15/4/24.
 //
 
+
 import SwiftUI
 import FirebaseDatabase
 
@@ -24,18 +25,15 @@ struct AgregarTransac: View {
         return uuid
     }
     
-    // Función para recuperar el stock del producto seleccionado desde Firebase
-    private func getStockForProduct(productName: String) {
+    // Función para recuperar los nombres de los productos desde Firebase
+    private func getProductNamesFromFirebase() {
         let ref = Database.database().reference().child("productos")
         ref.observeSingleEvent(of: .value) { snapshot in
             guard let productosSnapshot = snapshot.value as? [String: [String: Any]] else {
                 return
             }
-            if let productData = productosSnapshot.first(where: { $0.value["nombre"] as? String == productName })?.value {
-                if let stock = productData["cantidad"] as? Int {
-                    self.stock = stock
-                }
-            }
+            let nombres = productosSnapshot.compactMap { $0.value["nombre"] as? String }
+            self.productNames = nombres
         }
     }
     
@@ -60,11 +58,10 @@ struct AgregarTransac: View {
                     .onAppear {
                         getProductNamesFromFirebase() // Llama a la función para recuperar los nombres de los productos
                     }
-                    .onChange(of: producto) { productName in
-                        getStockForProduct(productName: productName) // Llama a la función para recuperar el stock del producto seleccionado
-                    }
                     .keyboardType(.default)
-                    Text("Stock: \(stock)") // Muestra el stock del producto seleccionado
+                    Stepper(value: $stock, in: 0...Int.max, label: {
+                        Text("Stock: \(stock)")
+                    })
                     Stepper(value: $cantidad, in: 0...Int.max, label: {
                         Text("Cantidad de Entrada/Salida: \(cantidad)")
                     })
