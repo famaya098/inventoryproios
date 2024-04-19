@@ -229,12 +229,12 @@ struct ProductosScreen: View {
                             }
                         }
                     } else {
-                        // Mostrar un mensaje de error o alerta si no hay imagen seleccionada
+                        
                         print("No se ha seleccionado ninguna imagen")
                     }
                 }
 
-                // Limpiar los campos del formulario después de guardar el producto
+    
                 private func clearFields() {
                     nombre = ""
                     descripcion = ""
