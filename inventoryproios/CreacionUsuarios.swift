@@ -180,10 +180,10 @@ struct CreacionUsuarios: View {
        
 //
     func signUp() {
-        // Lógica de registro de usuario...
-        guard !email.isEmpty && !contrasena.isEmpty && !nombres.isEmpty && !apellidos.isEmpty && !dui.isEmpty && !username.isEmpty && !tipoPermiso.isEmpty && !telefono.isEmpty && !direccion.isEmpty && foto != nil && !creadopor.isEmpty else {
-            // Mostrar mensaje de error si algún campo está vacío
-            self.alertMessage = AlertMessage(title: "Error", message: "Todos los campos son obligatorios, incluyendo la foto y el campo 'Creado por'")
+        
+        guard !email.isEmpty && !contrasena.isEmpty && !nombres.isEmpty && !apellidos.isEmpty && !dui.isEmpty && !username.isEmpty && !tipoPermiso.isEmpty && !telefono.isEmpty && !direccion.isEmpty  else {
+            
+            self.alertMessage = AlertMessage(title: "Error", message: "Todos los campos son obligatorios, Asegurate que no falte ninguno")
             self.showAlert = true
             print("Error: Campos vacíos")
             return
@@ -193,16 +193,16 @@ struct CreacionUsuarios: View {
 
         Auth.auth().createUser(withEmail: email, password: contrasena) { authResult, error in
             if let error = error {
-                // Mostrar mensaje de error si ocurre un error al registrar el usuario
+                
                 self.alertMessage = AlertMessage(title: "Error", message: "Error al registrar usuario: \(error.localizedDescription)")
                 self.showAlert = true
                 print("Error al registrar usuario:", error.localizedDescription)
             } else {
-                // Usuario registrado exitosamente, guardar los demás datos en Realtime Database
+                
                 self.alertMessage = AlertMessage(title: "Genial!", message: "\(username) ha sido creado con éxito.")
                 self.showAlert = true
-                saveUserData() // Mover la llamada a saveUserData() aquí
-                clearFields() // Limpiar los campos después de enviar la información correctamente
+                saveUserData()
+                clearFields()
                 print("Usuario registrado exitosamente.")
             }
         }
@@ -248,7 +248,7 @@ struct CreacionUsuarios: View {
                    if let image = selectedImage {
                        uploadPhoto(uid: uid, image: image)
                    } else {
-                       // cerrar la pantalla
+                       
                        //presentationMode.wrappedValue.dismiss()
                       
                    }
@@ -295,7 +295,6 @@ struct CreacionUsuarios: View {
                    
                    print("URL de la foto actualizada exitosamente en Realtime Database")
                    
-                   // cerrar la pantalla
                    //presentationMode.wrappedValue.dismiss()
                }
            }

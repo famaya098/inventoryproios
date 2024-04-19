@@ -1,3 +1,4 @@
+
 //
 //  ProductosScreen.swift
 //  inventoryproios
@@ -6,16 +7,23 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ProductosScreen: View {
-    @State private var codigo: String = ""
+    @State private var codigo: String = generateUniqueCode()
     @State private var nombre: String = ""
+    @State private var descripcion: String = ""
     @State private var precioCompra: String = ""
     @State private var precioVenta: String = ""
-    @State private var unidadSeleccionada: String = ""
     @State private var cantidad: String = ""
+    @State private var unidad: String = ""
+    @State private var estatus: String = "Activo"
+    @State private var selectedImage: UIImage? = nil
+    @State private var showingImagePicker = false
 
-    var unidades: [String] = ["Unidad 1", "Unidad 2", "Unidad 3"]
+    @State private var createdUser: String = ""
+    
+    var estatusOptions: [String] = ["Activo", "Inactivo", "Descontinuado"]
 
     var body: some View {
         NavigationView {
@@ -24,13 +32,18 @@ struct ProductosScreen: View {
                     HStack {
                         Image(systemName: "barcode.viewfinder")
                         TextField("Código", text: $codigo)
+                            .disabled(true)
                     }
                     HStack {
                         Image(systemName: "tag")
                         TextField("Nombre", text: $nombre)
                     }
+                    HStack {
+                        Image(systemName: "doc.text")
+                        TextField("Descripción", text: $descripcion)
+                    }
                 }
-                
+
                 Section(header: Text("Detalles de la Compra").font(.headline)) {
                     HStack {
                         Image(systemName: "dollarsign.circle")
@@ -43,23 +56,65 @@ struct ProductosScreen: View {
                             .keyboardType(.decimalPad)
                     }
                     HStack {
-                        Image(systemName: "scalemass")
-                        Picker("Unidad", selection: $unidadSeleccionada) {
-                            ForEach(unidades, id: \.self) { unidad in
-                                Text(unidad)
-                            }
-                        }
+                        Image(systemName: "number")
+                        TextField("Cantidad que Ingresa", text: $cantidad)
+                            .keyboardType(.numberPad)
                     }
                     HStack {
-                        Image(systemName: "number")
-                        TextField("Cantidad de Unidades que Ingresa", text: $cantidad)
-                            .keyboardType(.numberPad)
+                        Image(systemName: "text.book.closed")
+                        TextField("Unidad", text: $unidad)
+                    }
+                    Picker("Estatus", selection: $estatus) {
+                        ForEach(estatusOptions, id: \.self) { option in
+                            Text(option)
+                        }
                     }
                 }
 
+                Section(header: Text("Agregar Foto").font(.headline)) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(width: 150, height: 150)
+                            .shadow(radius: 5)
+                        
+                        if let image = selectedImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 120, height: 120)
+                                .cornerRadius(10)
+                        } else {
+                            Image(systemName: "photo.on.rectangle")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 100, height: 100)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .padding()
+                    Button(action: {
+                        showingImagePicker = true
+                    }) {
+                        HStack {
+                            Image(systemName: "photo.on.rectangle")
+                            Text("Seleccionar Foto")
+                        }
+                    }
+                    .sheet(isPresented: $showingImagePicker) {
+                        ImagePicker(image: $selectedImage)
+                    }
+                }
+                Section(header: Text("Creado por").font(.headline)) {
+                                    Text(createdUser)
+                                }
+
+
+
+
                 Section {
                     Button(action: {
-                    
+                        // Aquí colocar la lógica para guardar los datos
                     }) {
                         Text("Guardar")
                             .frame(maxWidth: .infinity)
@@ -71,6 +126,24 @@ struct ProductosScreen: View {
                 }
             }
             .navigationBarTitle("Añadir Producto", displayMode: .inline)
-        }
-    }
-}
+                   }
+                   .onAppear {
+                       loadCreatedUser()
+                   }
+               }
+
+               private static func generateUniqueCode() -> String {
+                   let uuid = UUID().uuidString
+                   return uuid
+               }
+               
+               private func loadCreatedUser() {
+                   if let user = Auth.auth().currentUser {
+                       // Usuario autenticado, establecer el nombre de usuario
+                       createdUser = user.displayName ?? "Desconocido"
+                   } else {
+                       // No hay usuario autenticado, establecer un valor predeterminado
+                       createdUser = "Desconocido"
+                   }
+               }
+           }
