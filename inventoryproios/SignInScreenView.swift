@@ -8,6 +8,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseDatabase
 
 struct SignInScreenView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -17,6 +18,7 @@ struct SignInScreenView: View {
     @State private var isPasswordVisible: Bool = false
     @State private var signInError: ErrorModel? = nil
     @State private var isLoggedIn: Bool = false
+    @State private var username: String = ""
     
     var body: some View {
         NavigationView {
@@ -82,52 +84,64 @@ struct SignInScreenView: View {
                 .padding(.horizontal, 25)
             }
             .navigationBarTitle("")
-            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading:
-                Button(action: {
-                    if let window = UIApplication.shared.windows.first {
-                        window.rootViewController = UIHostingController(rootView: WelcomeScreenView().environmentObject(SessionManager()))
-                        window.makeKeyAndVisible()
-                    }
-                }) {
-                    Image(systemName: "arrow.left")
-                        .foregroundColor(ColorName.light_green_color_132D39)
-                }
-            )
+                        .navigationBarBackButtonHidden(true)
+                        .navigationBarItems(leading:
+                            Button(action: {
+                                if let window = UIApplication.shared.windows.first {
+                                    window.rootViewController = UIHostingController(rootView: WelcomeScreenView().environmentObject(SessionManager()))
+                                    window.makeKeyAndVisible()
+                                }
+                            }) {
+                                Image(systemName: "arrow.left")
+                                    .foregroundColor(ColorName.light_green_color_132D39)
+                            }
+                        )
 
-            .alert(item: $signInError) { error in
-                Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
-            }
-        }
-        .fullScreenCover(isPresented: $isLoggedIn) {
-                    HomePageScreenView()
+                        .alert(item: $signInError) { error in
+                            Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
+                        }
+                    }
+                    .fullScreenCover(isPresented: $isLoggedIn) {
+                        // Pasa el nombre de usuario a HomePageScreenView
+                        HomePageScreenView(username: username)
+                    }
+                    .onDisappear {
+                        UserDefaults.standard.set(email, forKey: "lastLoggedInEmail")
+                    }
                 }
-                .onDisappear {
-                    UserDefaults.standard.set(email, forKey: "lastLoggedInEmail")
-                }
-            }
     
     private func signIn() {
-        
-        guard !email.isEmpty else {
-            signInError = ErrorModel(message: "Ingrese su correo electrónico.")
-            return
-        }
-        guard !password.isEmpty else {
-            signInError = ErrorModel(message: "Ingrese su contraseña.")
-            return
-        }
-        
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
-            if let error = error {
-                signInError = ErrorModel(message: error.localizedDescription)
-            } else {
-                
-                isLoggedIn = true
+            
+            guard !email.isEmpty else {
+                signInError = ErrorModel(message: "Ingrese su correo electrónico.")
+                return
+            }
+            guard !password.isEmpty else {
+                signInError = ErrorModel(message: "Ingrese su contraseña.")
+                return
+            }
+            
+            Auth.auth().signIn(withEmail: email, password: password) { result, error in
+                if let error = error {
+                    signInError = ErrorModel(message: error.localizedDescription)
+                } else {
+                    guard let user = Auth.auth().currentUser else {
+                        // No se pudo obtener el usuario actual
+                        return
+                    }
+                    // Aquí obtén el nombre de usuario del usuario autenticado desde la base de datos en tiempo real de Firebase
+                    let databaseRef = Database.database().reference().child("usuarios").child(user.uid)
+                    databaseRef.observeSingleEvent(of: .value) { snapshot in
+                        if let userData = snapshot.value as? [String: Any],
+                           let username = userData["username"] as? String {
+                            self.username = username
+                        }
+                    }
+                    isLoggedIn = true
+                }
             }
         }
     }
-}
 
 struct ErrorModel: Identifiable {
     var id = UUID()

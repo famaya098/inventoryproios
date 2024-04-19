@@ -8,6 +8,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseDatabaseInternal
 
 struct ProductosScreen: View {
     @State private var codigo: String = generateUniqueCode()
@@ -137,13 +138,22 @@ struct ProductosScreen: View {
                    return uuid
                }
                
-               private func loadCreatedUser() {
-                   if let user = Auth.auth().currentUser {
-                       // Usuario autenticado, establecer el nombre de usuario
-                       createdUser = user.displayName ?? "Desconocido"
-                   } else {
-                       // No hay usuario autenticado, establecer un valor predeterminado
-                       createdUser = "Desconocido"
-                   }
-               }
+    private func loadCreatedUser() {
+        guard let user = Auth.auth().currentUser else {
+            // No hay usuario autenticado, establecer un valor predeterminado
+            createdUser = "Desconocido"
+            return
+        }
+
+        // Obtener el nombre de usuario desde la base de datos en tiempo real de Firebase
+        let databaseRef = Database.database().reference().child("usuarios").child(user.uid)
+        databaseRef.observeSingleEvent(of: .value) { snapshot in
+            if let userData = snapshot.value as? [String: Any],
+               let username = userData["username"] as? String {
+                self.createdUser = username
+            } else {
+                self.createdUser = "Desconocido"
+            }
+        }
+    }
            }

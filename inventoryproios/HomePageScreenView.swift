@@ -10,6 +10,7 @@ import SwiftUI
 
 struct HomePageScreenView: View {
     @State var showMenu = false
+    let username: String
     
     var body: some View {
         
@@ -23,21 +24,21 @@ struct HomePageScreenView: View {
             }
         
         return NavigationView {
-            GeometryReader { geometry in
-                ZStack (alignment: .leading){
-                    MainView(showMenu: self.$showMenu)
-                        .frame(width: geometry.size.width,
-                               height: geometry.size.height)
-                        .offset(x: self.showMenu ? geometry.size.width/2: 0)
-                        .disabled(self.showMenu ? true : false)
-                    if self.showMenu {
-                        MenuView()
-                            .frame(width: geometry.size.width/2)
-                            .transition(.move(edge: .leading))
+                   GeometryReader { geometry in
+                       ZStack (alignment: .leading){
+                           MainView(showMenu: self.$showMenu, username: self.username)
+                               .frame(width: geometry.size.width,
+                                      height: geometry.size.height)
+                               .offset(x: self.showMenu ? geometry.size.width/2: 0)
+                               .disabled(self.showMenu ? true : false)
+                           if self.showMenu {
+                               MenuView()
+                                   .frame(width: geometry.size.width/2)
+                                   .transition(.move(edge: .leading))
+                           }
+                       }
+                       .gesture(drag)
                     }
-                }
-                .gesture(drag)
-            }
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(leading: (
                 Button(action: {
@@ -54,12 +55,12 @@ struct HomePageScreenView: View {
 }
 
 struct MainView: View {
-    
     @Binding var showMenu: Bool
+    let username: String
     
     var body: some View {
         VStack {
-            Text("¡Hola, Freddy!")
+            Text("¡Hola, \(username)!")
                 .font(.title)
                 .foregroundColor(.black)
                 .padding(.top, 20)
@@ -119,7 +120,7 @@ struct ShortcutView: View {
                 .cornerRadius(10)
         }
         .padding(8)
-        .background(Color.gray.opacity(0.1)) 
+        .background(Color.gray.opacity(0.1))
         .cornerRadius(20)
     }
 }
@@ -141,6 +142,6 @@ let shortcutsData: [ShortcutModel] = [
 
 struct HomePageScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        HomePageScreenView()
+        HomePageScreenView(username: "Freddy") // Pasa un nombre de usuario de ejemplo para la vista previa
     }
 }

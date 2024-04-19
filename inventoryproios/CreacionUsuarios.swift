@@ -10,6 +10,7 @@ import Firebase
 import FirebaseFirestoreInternal
 
 import FirebaseStorage
+import FirebaseDatabaseInternal
 
 
 struct AlertMessage {
