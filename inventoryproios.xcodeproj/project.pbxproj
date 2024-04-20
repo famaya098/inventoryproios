@@ -29,6 +29,8 @@
 		83CAF4C42BCED593003F6962 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 83CAF4C32BCED593003F6962 /* FirebaseDatabase */; };
 		83CAF4C62BCED593003F6962 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 83CAF4C52BCED593003F6962 /* FirebaseFirestore */; };
 		83CAF4C82BCED593003F6962 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 83CAF4C72BCED593003F6962 /* FirebaseStorage */; };
+		83CF06632BD38650007F0A7B /* CambiarContrasena.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CF06622BD38650007F0A7B /* CambiarContrasena.swift */; };
+		83CF06652BD38B13007F0A7B /* DetalleProducto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CF06642BD38B13007F0A7B /* DetalleProducto.swift */; };
 		83E728872BB088F100ADCEB2 /* inventoryproiosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728862BB088F100ADCEB2 /* inventoryproiosApp.swift */; };
 		83E728892BB088F100ADCEB2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728882BB088F100ADCEB2 /* ContentView.swift */; };
 		83E7288B2BB088F300ADCEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83E7288A2BB088F300ADCEB2 /* Assets.xcassets */; };
@@ -71,6 +73,8 @@
 		8385C45F2BCDDE5D00A97444 /* inventoryproiosTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inventoryproiosTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		8385C4682BCE12DD00A97444 /* CreacionUsuarios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreacionUsuarios.swift; sourceTree = "<group>"; };
 		83CAF4C12BCEC13B003F6962 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		83CF06622BD38650007F0A7B /* CambiarContrasena.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambiarContrasena.swift; sourceTree = "<group>"; };
+		83CF06642BD38B13007F0A7B /* DetalleProducto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetalleProducto.swift; sourceTree = "<group>"; };
 		83E728832BB088F100ADCEB2 /* inventoryproios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inventoryproios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E728862BB088F100ADCEB2 /* inventoryproiosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inventoryproiosApp.swift; sourceTree = "<group>"; };
 		83E728882BB088F100ADCEB2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -192,6 +196,8 @@
 			children = (
 				83E7288D2BB088F300ADCEB2 /* Preview Assets.xcassets */,
 				8385C45F2BCDDE5D00A97444 /* inventoryproiosTests-Bridging-Header.h */,
+				83CF06622BD38650007F0A7B /* CambiarContrasena.swift */,
+				83CF06642BD38B13007F0A7B /* DetalleProducto.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -353,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				83E728B32BB08BB700ADCEB2 /* SignInScreenView.swift in Sources */,
+				83CF06632BD38650007F0A7B /* CambiarContrasena.swift in Sources */,
 				814B9A3E2BBE0CCD00960D29 /*  MenuView.swift in Sources */,
 				83E728B12BB08ABD00ADCEB2 /* WelcomeScreenView.swift in Sources */,
 				8385C4462BCD87CE00A97444 /* ProductosScreen.swift in Sources */,
@@ -368,6 +375,7 @@
 				83CAF4C22BCEC13B003F6962 /* ImagePicker.swift in Sources */,
 				8385C4482BCD87F500A97444 /* AgregarTransac.swift in Sources */,
 				81CDAE6A2BB6668D00108DD5 /* HeaderView.swift in Sources */,
+				83CF06652BD38B13007F0A7B /* DetalleProducto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,4 +1,3 @@
-//
 //  AgregarTransac.swift
 //  inventoryproios
 //
@@ -12,12 +11,12 @@ import FirebaseDatabase
 struct AgregarTransac: View {
     @State private var codigoTransaccion: String = generateUniqueTransactionCode()
     @State private var fecha: Date = Date()
-    @State private var producto: String = ""
-    @State private var stock: Int = 0
     @State private var cantidad: Int = 0
     @State private var tipoTransaccion: String = "Entrada"
     @State private var totalDespuesTransaccion: Int = 0
     @State private var productNames: [String] = [] // Variable para almacenar los nombres de los productos
+    @State private var selectedProduct: String = "Seleccionar producto"
+    @State private var stock: Int = 0 // Stock del producto seleccionado
     
     // Función para generar un código único de transacción
     private static func generateUniqueTransactionCode() -> String {
@@ -37,6 +36,36 @@ struct AgregarTransac: View {
         }
     }
     
+    private func getStockForSelectedProduct() {
+        guard selectedProduct != "Seleccionar producto" else {
+            stock = 0
+            return
+        }
+        
+        let ref = Database.database().reference().child("productos").child(selectedProduct)
+        ref.observeSingleEvent(of: .value) { snapshot in
+            if let productData = snapshot.value as? [String: Any] {
+                print("Datos del producto seleccionado: \(productData)")
+                
+                // Verifica si el campo "cantidad" existe y es un número
+                if let stockValue = productData["cantidad"] as? String, let stockInt = Int(stockValue) {
+                    self.stock = stockInt
+                } else {
+                    print("No se pudo obtener el stock del producto seleccionado")
+                    self.stock = 0
+                }
+            } else {
+                print("No se encontraron datos para el producto seleccionado")
+                self.stock = 0
+            }
+        }
+    }
+
+
+
+    
+
+    
     var body: some View {
         NavigationView {
             Form {
@@ -50,18 +79,23 @@ struct AgregarTransac: View {
                     
                     DatePicker("Fecha", selection: $fecha, displayedComponents: .date)
                     // Utiliza los nombres de los productos para inicializar el Picker
-                    Picker("Producto", selection: $producto) {
+                    Picker("Producto", selection: $selectedProduct) {
+                        Text("Seleccionar producto").tag("Seleccionar producto")
                         ForEach(productNames, id: \.self) { productName in
                             Text(productName).tag(productName)
                         }
                     }
                     .onAppear {
-                        getProductNamesFromFirebase() // Llama a la función para recuperar los nombres de los productos
+                        getProductNamesFromFirebase()
+                    }
+                    .onChange(of: selectedProduct) { productName in
+                        getStockForSelectedProduct()
                     }
                     .keyboardType(.default)
-                    Stepper(value: $stock, in: 0...Int.max, label: {
-                        Text("Stock: \(stock)")
-                    })
+
+                    
+                    Text("Stock actual: \(stock)") // Muestra el stock actual del producto seleccionado
+                    
                     Stepper(value: $cantidad, in: 0...Int.max, label: {
                         Text("Cantidad de Entrada/Salida: \(cantidad)")
                     })
@@ -89,3 +123,4 @@ struct AgregarTransac: View {
         }
     }
 }
+

@@ -9,144 +9,84 @@ import SwiftUI
 
 struct MenuView: View {
     @EnvironmentObject var sessionManager: SessionManager
-        
+    
     var body: some View {
-        VStack (alignment: .leading) {
-            HStack {
-                Image("William_Penado_profile_picture")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 25)
-                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/, style: /*@START_MENU_TOKEN@*/FillStyle()/*@END_MENU_TOKEN@*/)
-                    .shadow(color: .gray, radius: 20, x: 0, y: 2)
-                    .offset(x: -30, y: 15)
-                VStack {
-                    Text(MenuLateral.nombre_de_perfil)
-                        .foregroundColor(.white)
-                        .font(.system(size: 12, weight: .regular, design: .default))
-                        .offset(x: -40, y: 15)
-                    HStack {
-                        Image(systemName: "circle.fill")
-                            .foregroundColor(.green)
-                            .offset(x: -50, y: 20)
-                        Text("En línea")
-                            .foregroundColor(.white)
-                            .font(.system(size: 12, weight: .regular, design: .default))
-                            .offset(x: -50, y: 20)
-                    }
-                }
-            }.padding(.top, 25)
-            HStack {
-                Text(MenuLateral.etiqueta_de_menu)
-                    .font(.headline)
-                    .foregroundColor(.white)
-            }.padding(.top, 25)
-            HStack {
-                Image(systemName: "house.circle.fill")
-                    .foregroundColor(.white)
-                    .imageScale(.large)
-                Text(MenuLateral.inicio)
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }.padding(.top, 10)
-            HStack {
-                Image(systemName: "suitcase.cart.fill")
-                    .foregroundColor(.white)
-                    .imageScale(.large)
-                Text(MenuLateral.compras)
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }.padding(.top, 25)
-            HStack {
-                Image(systemName: "shippingbox.circle.fill")
-                    .foregroundColor(.white)
-                    .imageScale(.large)
-                Text(MenuLateral.productos)
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }.padding(.top, 25)
-            HStack {
-                Image(systemName: "tag.slash.fill")
-                    .foregroundColor(.white)
-                    .imageScale(.large)
-                Text(MenuLateral.fabricante)
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }.padding(.top, 25)
-            HStack {
-                Image(systemName: "person.fill")
-                    .foregroundColor(.white)
-                    .imageScale(.large)
-                Text(MenuLateral.contactos)
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }.padding(.top, 25)
-            HStack {
-                Image(systemName: "dollarsign")
-                    .foregroundColor(.white)
-                    .imageScale(.large)
-                Text(MenuLateral.facturacion)
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }.padding(.top, 25)
-            HStack {
-                Image(systemName: "chart.line.uptrend.xyaxis")
-                    .foregroundColor(.white)
-                    .imageScale(.large)
-                Text(MenuLateral.reportes)
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }.padding(.top, 25)
-            HStack {
-                Image(systemName: "wrench")
-                    .foregroundColor(.white)
-                    .imageScale(.large)
-                Text(MenuLateral.configuracion)
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }.padding(.top, 25)
-            NavigationLink(destination: CreacionUsuarios()) {
-                HStack {
-                    Image(systemName: "lock")
-                        .foregroundColor(.white)
-                        .imageScale(.large)
-                    Text(MenuLateral.administrarAcceso)
-                        .foregroundColor(.white)
-                        .font(.headline)
-                }
+        VStack(alignment: .leading) {
+            Spacer()
+            
+            Text(MenuLateral.etiqueta_de_menu)
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding(.top, 25)
+            
+            NavigationLink(destination: EmptyView()) {
+                menuItem(systemName: "house.fill", title: MenuLateral.inicio)
             }
-            .padding(.top, 25)
-
-            HStack {
-                      Image(systemName: "lock")
-                          .foregroundColor(.white)
-                          .imageScale(.large)
-                Button(action: {
-                    sessionManager.signOut { result in
-                        switch result {
-                        case .success:
-                            if let window = UIApplication.shared.windows.first {
-                                window.rootViewController = UIHostingController(rootView: SignInScreenView().environmentObject(SessionManager()))
-                                window.makeKeyAndVisible()
+            
+            NavigationLink(destination: DetalleProducto()) {
+                                menuItem(systemName: "info.circle", title: "Detalle del Producto")
                             }
-                        case .failure(let error):
-                            print("Error signing out: \(error)")
-                        }
-                    }
-                }) {
-                    Text("Cerrar sesión")
-                        .foregroundColor(.white)
-                        .font(.headline)
-                }
+            
+            NavigationLink(destination: EmptyView()) {
+                menuItem(systemName: "arrow.up.arrow.down.circle.fill", title: "Transacciones Realizadas")
+            }
+            
+            NavigationLink(destination: EmptyView()) {
+                menuItem(systemName: "chart.bar.xaxis", title: "Reporte Stock")
+            }
+            
+            NavigationLink(destination: EmptyView()) {
+                menuItem(systemName: "chart.pie", title: "Reporte Transacciones")
+            }
+            
+            NavigationLink(destination: CambiarContrasena()) {
+                menuItem(systemName: "key.fill", title: "Cambiar Contraseña")
+            }
 
-                  }.padding(.top, 25)
-                  Spacer()
-              }.padding()
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .background(Color(ColorName.dark_green_color_132D39))
-              .edgesIgnoringSafeArea(.all)
-          }
-      }
+            
+            NavigationLink(destination: CreacionUsuarios()) {
+                menuItem(systemName: "person.2.fill", title: MenuLateral.administrarAcceso)
+            }
+
+            Spacer()
+            
+            Button(action: {
+                sessionManager.signOut { result in
+                    switch result {
+                    case .success:
+                        if let window = UIApplication.shared.windows.first {
+                            window.rootViewController = UIHostingController(rootView: SignInScreenView().environmentObject(SessionManager()))
+                            window.makeKeyAndVisible()
+                        }
+                    case .failure(let error):
+                        print("Error signing out: \(error)")
+                    }
+                }
+            }) {
+                menuItem(systemName: "lock.fill", title: "Cerrar Sesión")
+            }
+            
+            Spacer()
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(ColorName.dark_green_color_132D39))
+        .edgesIgnoringSafeArea(.all)
+    }
+    
+    private func menuItem(systemName: String, title: String) -> some View {
+        HStack {
+            Image(systemName: systemName)
+                .foregroundColor(.white)
+                .imageScale(.large)
+            Text(title)
+                .foregroundColor(.white)
+                .font(.headline)
+        }
+        .padding(.top, 25)
+    }
+}
+
 struct MenuView_Preview: PreviewProvider {
     static var previews: some View {
         MenuView()
