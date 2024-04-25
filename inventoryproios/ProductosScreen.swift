@@ -153,7 +153,7 @@ struct ProductosScreen: View {
     
     private func loadCreatedUser() {
         guard let user = Auth.auth().currentUser else {
-            // No hay usuario autenticado, establecer un valor predeterminado
+            // no hay usuario autenticado, establecer un valor predeterminado
             createdUser = "Desconocido"
             return
         }
@@ -174,7 +174,7 @@ struct ProductosScreen: View {
                 private func saveProduct() {
                     // Verificar que los campos obligatorios no estén vacíos
                     guard !nombre.isEmpty && !descripcion.isEmpty && !precioCompra.isEmpty && !precioVenta.isEmpty && !cantidad.isEmpty && !unidad.isEmpty else {
-                        // Mostrar un mensaje de error o alerta
+                        
                         return
                     }
 
@@ -209,18 +209,18 @@ struct ProductosScreen: View {
                                             "unidad": unidad,
                                             "estatus": estatus,
                                             "createdUser": createdUser,
-                                            "fechaCreacion": formattedDate(date: fechaCreacion), // Agrega la fecha de creación
-                                            "photoURL": downloadURL.absoluteString // URL de descarga de la imagen
+                                            "fechaCreacion": formattedDate(date: fechaCreacion),
+                                            "photoURL": downloadURL.absoluteString
                                                                         ]
 
                                         // Guardar los datos del producto en la base de datos
                                         dbRef.child("productos").child(codigo).setValue(productData) { (error, ref) in
                                             if let error = error {
                                                 print("Error al guardar los datos del producto en Firebase Realtime Database: \(error.localizedDescription)")
-                                                // Manejar el error
+                                                
                                             } else {
                                                 print("Producto guardado exitosamente en Firebase Realtime Database")
-                                                // Limpiar los campos después de guardar el producto
+                                                
                                                 clearFields()
                                             }
                                         }

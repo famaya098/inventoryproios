@@ -23,7 +23,7 @@ struct MenuView: View {
                 menuItem(systemName: "house.fill", title: MenuLateral.inicio)
             }
             
-            NavigationLink(destination: DetalleProducto()) {
+            NavigationLink(destination: EmptyView()) {
                                 menuItem(systemName: "info.circle", title: "Detalle del Producto")
                             }
             

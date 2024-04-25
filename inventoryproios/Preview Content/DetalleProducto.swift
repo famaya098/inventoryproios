@@ -7,7 +7,7 @@
 
 // DetalleProducto.swift
 
-import SwiftUI
+
 
 import SwiftUI
 
@@ -100,13 +100,13 @@ struct DetalleProductoScreen: View {
             }
             .padding()
         }
-        .background(Color(hex: 0x18232D))
+      //  .background(Color(hex: 0x18232D))
         .navigationBarTitle("Editar Medicamento", displayMode: .inline)
     }
 }
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetalleProductoScreen()
-    }
-}
+//
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DetalleProductoScreen()
+//    }
+//}
