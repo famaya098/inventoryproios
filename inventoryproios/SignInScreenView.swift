@@ -63,6 +63,8 @@ struct SignInScreenView: View {
                     
                     Button(action: {
                         signIn()
+                        //isLoggedIn = true
+                        
                     }) {
                         Text("Ingresar")
                             .foregroundColor(.white)

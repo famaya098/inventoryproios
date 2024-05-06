@@ -34,24 +34,21 @@ struct CreacionUsuarios: View {
     @State private var fechaActualizacion: Date = Date()
     @State private var estatus: String = "Activo"
     @State private var creadopor: String = ""
-
+    
     @State private var fechaCreacion = Date()
     
     @State private var showingImagePicker = false
     @State private var selectedImage: UIImage? = nil
-
-    // Firebase Authentication
-      //@State private var signUpError: Error?
-      //@State private var isLoggedIn: Bool = false
     
     @Environment(\.presentationMode) var presentationMode
     
     @State private var alertMessage: AlertMessage?
     @State private var showAlert = false
     @State private var showSuccessNotification = false
+    @State private var createdUser: String = ""
     
     
-
+    
     var body: some View {
         NavigationView {
             Form {
@@ -91,11 +88,8 @@ struct CreacionUsuarios: View {
                         TextField("Dirección", text: $direccion)
                     }
                     DatePicker("Fecha Nacimiento", selection: $fechaNacimiento, in: ...Date(), displayedComponents: .date)
-                    
-                    
-                    
-                    
                 }
+
                 
                 Section(header: Text("Agregar Foto").font(.headline)) {
                     ZStack {
@@ -134,24 +128,47 @@ struct CreacionUsuarios: View {
                 
                 
                 Section(header: Text("Información del Sistema").font(.headline)) {
-                    Text("Fecha Creación: \(formattedDate(date: fechaCreacion))")
-                                       
-                    Picker("Tipo Permiso", selection: $tipoPermiso) {
-                                           Text("Administrador").tag("Administrador")
-                                           Text("Usuario").tag("Usuario")
-                                       }
-                    Picker("Estatus", selection: $estatus) {
-                                           Text("Activo").tag("Activo")
-                                           Text("Inactivo").tag("Inactivo")
-                                       }
                     HStack {
-                        Image(systemName: "person.crop.rectangle.fill")
-                        TextField("Creado por", text: $creadopor)
+                        Image(systemName: "calendar")
+                        Text("Fecha: \(formattedDate(date: fechaCreacion))")
                     }
+                    
+                    Picker("Tipo Permiso", selection: $tipoPermiso) {
+                        ForEach(["Administrador", "Usuario"], id: \.self) { role in
+                            HStack {
+                                if role == "Administrador" {
+                                    Image(systemName: "person.fill")
+                                } else {
+                                    Image(systemName: "person")
+                                }
+                                Text(role)
+                            }
+                            .tag(role)
+                        }
+                    }
+
+                    Picker("Estatus", selection: $estatus) {
+                        ForEach(["Activo", "Inactivo"], id: \.self) { status in
+                            HStack {
+                                if status == "Activo" {
+                                    Image(systemName: "checkmark.circle.fill")
+                                } else {
+                                    Image(systemName: "xmark.circle.fill")
+                                }
+                                Text(status)
+                            }
+                            .tag(status)
+                        }
+                    }
+
                 }
+
+                Section(header: Text("Creado por").font(.headline)) {
+                                    Text(createdUser)
+                                }
                 Section {
                     Button(action: {
-                    signUp()
+                        signUp()
                         
                     }) {
                         Text("Guardar")
@@ -165,37 +182,57 @@ struct CreacionUsuarios: View {
                 }
             }
             .navigationBarTitle("Crear Usuario", displayMode: .inline)
-                        .onAppear {
-                            // Actualiza la fecha de creación cada vez que la vista aparezca
-                            fechaCreacion = Date()
-                                    }
-                        .alert(isPresented: $showAlert) {
-                            if let alertMessage = alertMessage {
-                                return Alert(
-                                    title: Text(alertMessage.title),
-                                    message: Text(alertMessage.message),
-                                    dismissButton: .default(Text("OK")) {
-                                        handleAlertDismissed()
-                                    }
-                                )
-                            } else {
-                                return Alert(title: Text("Error"), message: Text("Se ha producido un error"), dismissButton: .default(Text("OK")))
-                            }
+            .onAppear {
+                
+                fechaCreacion = Date()
+                loadCreatedUser()
+            }
+            .alert(isPresented: $showAlert) {
+                if let alertMessage = alertMessage {
+                    return Alert(
+                        title: Text(alertMessage.title),
+                        message: Text(alertMessage.message),
+                        dismissButton: .default(Text("OK")) {
+                            handleAlertDismissed()
                         }
+                    )
+                } else {
+                    return Alert(title: Text("Error"), message: Text("Se ha producido un error"), dismissButton: .default(Text("OK")))
+                }
+            }
             
-                    }
-                }
-
-                func handleAlertDismissed() {
-                    self.alertMessage = nil
-                }
+        }
+    }
+    
+    func handleAlertDismissed() {
+        self.alertMessage = nil
+    }
     
     func formattedDate(date: Date) -> String {
-           let formatter = DateFormatter()
-           formatter.dateStyle = .medium
-           formatter.timeStyle = .medium
-           return formatter.string(from: date)
-       }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        return formatter.string(from: date)
+    }
+    // Función para cargar el nombre del usuario desde Firebase
+    private func loadCreatedUser() {
+        guard let user = Auth.auth().currentUser else {
+            // Si no hay usuario autenticado, establecer un valor predeterminado
+            createdUser = "Desconocido"
+            return
+        }
+        
+        // Obtener el nombre de usuario desde la base de datos en tiempo real de Firebase
+        let databaseRef = Database.database().reference().child("usuarios").child(user.uid)
+        databaseRef.observeSingleEvent(of: .value) { snapshot in
+            if let userData = snapshot.value as? [String: Any],
+               let username = userData["username"] as? String {
+                self.createdUser = username
+            } else {
+                self.createdUser = "Desconocido"
+            }
+        }
+    }
     
     func clearFields() {
         nombres = ""
@@ -222,7 +259,7 @@ struct CreacionUsuarios: View {
         
         guard !email.isEmpty && !contrasena.isEmpty && !nombres.isEmpty && !apellidos.isEmpty && !dui.isEmpty && !username.isEmpty && !tipoPermiso.isEmpty && !telefono.isEmpty && !direccion.isEmpty  else {
             
-            self.alertMessage = AlertMessage(title: "Error", message: "Todos los campos son obligatorios, Asegurate que no falte ninguno")
+            self.alertMessage = AlertMessage(title: "Error", message: "Todos los campos son obligatorios. Asegúrate de completarlos antes de guardar.")
             self.showAlert = true
             print("Error: Campos vacíos")
             return

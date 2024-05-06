@@ -136,6 +136,7 @@ struct ShortcutModel: Identifiable {
 let shortcutsData: [ShortcutModel] = [
     ShortcutModel(imageName: "imagen12", title: "Agregar Productos", destination: AnyView(ProductosScreen())),
     ShortcutModel(imageName: "imagen6", title: "Realizar Transacción", destination: AnyView(AgregarTransac())),
+
     ShortcutModel(imageName: "imagen11", title: "Reporte Stock", destination: AnyView(ReporteInventarioScreen())),
     ShortcutModel(imageName: "imagen8", title: "Reporte Transacción", destination: AnyView(ReporteTransac()))
 ]

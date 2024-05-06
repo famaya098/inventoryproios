@@ -26,6 +26,9 @@ struct ProductosScreen: View {
     @State private var createdUser: String = ""
     
     @State private var fechaCreacion = Date()
+    @State private var alertMessage: AlertMessage?
+    @State private var showAlert = false
+
     
     var estatusOptions: [String] = ["Activo", "Inactivo", "Descontinuado"]
 
@@ -73,7 +76,10 @@ struct ProductosScreen: View {
                             Text(option)
                         }
                     }
-                    Text("Fecha Creación: \(formattedDate(date: fechaCreacion))")
+                    HStack {
+                                            Image(systemName: "calendar")
+                                            Text("Fecha: \(formattedDate(date: fechaCreacion))")
+                                        }
                 }
 
                 Section(header: Text("Agregar Foto").font(.headline)) {
@@ -129,6 +135,20 @@ struct ProductosScreen: View {
                             .cornerRadius(10)
                     }
                 }
+                .alert(isPresented: $showAlert) {
+                    if let alertMessage = alertMessage {
+                        return Alert(
+                            title: Text(alertMessage.title),
+                            message: Text(alertMessage.message),
+                            dismissButton: .default(Text("OK")) {
+                                handleAlertDismissed()
+                            }
+                        )
+                    } else {
+                        return Alert(title: Text("Error"), message: Text("Se ha producido un error"), dismissButton: .default(Text("OK")))
+                    }
+                }
+
             }
             .navigationBarTitle("Añadir Producto", displayMode: .inline)
                    }
@@ -143,6 +163,23 @@ struct ProductosScreen: View {
                    return uuid
                }
     
+        // Función para mostrar la alerta
+        private func showAlert(message: String) {
+            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
+        }
+    
+        struct AlertMessage {
+            var title: String
+            var message: String
+        }
+        
+        func handleAlertDismissed() {
+            self.alertMessage = nil
+        }
+
+
     
     func formattedDate(date: Date) -> String {
            let formatter = DateFormatter()
@@ -171,12 +208,14 @@ struct ProductosScreen: View {
                 }
 
                 // Guardar el producto en Firebase Realtime Database y la foto en Firebase Storage
-                private func saveProduct() {
-                    // Verificar que los campos obligatorios no estén vacíos
-                    guard !nombre.isEmpty && !descripcion.isEmpty && !precioCompra.isEmpty && !precioVenta.isEmpty && !cantidad.isEmpty && !unidad.isEmpty else {
-                        
-                        return
-                    }
+    private func saveProduct() {
+        // Verificar que los campos obligatorios no estén vacíos
+        guard !nombre.isEmpty && !descripcion.isEmpty && !precioCompra.isEmpty && !precioVenta.isEmpty && !cantidad.isEmpty && !unidad.isEmpty else {
+                // Mostrar una alerta al usuario
+                self.alertMessage = AlertMessage(title: "Error", message: "Todos los campos son obligatorios. Asegúrate de completarlos antes de guardar.")
+                self.showAlert = true
+                return
+            }
 
                     // Obtener una referencia a la base de datos y a Storage
                     let dbRef = Database.database().reference()
