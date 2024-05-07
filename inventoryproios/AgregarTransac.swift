@@ -20,6 +20,9 @@ struct AgregarTransac: View {
     @State private var createdUser: String = ""
     let transaccionesRef = Database.database().reference().child("transacciones")
     
+    @State private var showAlert = false
+    @State private var alertMessage: AlertMessage?
+    
     // generar un código único de transacción
     private static func generateUniqueTransactionCode() -> String {
         let uuid = UUID().uuidString
@@ -113,6 +116,104 @@ struct AgregarTransac: View {
             self.stock = 0
         }
     }
+    
+    func saveTransaccion() {
+        // Validación: Verificar si se seleccionó un producto
+        guard selectedProduct != "Seleccionar producto" else {
+            // Mostrar un mensaje de error
+            self.alertMessage = AlertMessage(title: "Error", message: "Debes elegir un producto")
+            self.showAlert = true
+            return
+        }
+        
+        // Validación: Verificar si la cantidad es mayor que 0
+            guard let cantidadInt = Int(cantidad), cantidadInt > 0 else {
+                // Mostrar un mensaje de error
+                self.alertMessage = AlertMessage(title: "Error", message: "Para realizar una transacción, la cantidad debe ser mayor a 0")
+                self.showAlert = true
+                return
+            }
+            
+            // Validación: Verificar si el totalDespuesTransaccion es positivo
+            guard totalDespuesTransaccion >= 0 else {
+                // Mostrar un mensaje de error
+                self.alertMessage = AlertMessage(title: "Error", message: "No hay suficiente stock para la transacción")
+                self.showAlert = true
+                return
+            }
+
+        let codigoTransaccion = self.codigoTransaccion
+        let fecha = self.formattedDate(date: self.fecha)
+        let producto = self.selectedProduct
+        let stockActual = String(self.stock)
+        let cantidad = self.cantidad
+        let tipoTransaccion = self.tipoTransaccion
+        let totalStock = String(self.totalDespuesTransaccion)
+        let creadoPor = self.createdUser
+
+        let transaccionData: [String: Any] = [
+            "codigoTransaccion": codigoTransaccion,
+            "fechaCreacion": fecha,
+            "nombreProducto": producto,
+            "stockInicial": stockActual,
+            "cantidadIngresada": cantidad,
+            "tipoTransaccion": tipoTransaccion,
+            "stockFinal": totalStock,
+            "creadoPor": creadoPor
+        ]
+
+        let transaccionesRef = Database.database().reference().child("transacciones")
+        let childRef = transaccionesRef.childByAutoId() // Obtener una clave única para la transacción
+        childRef.setValue(transaccionData) { (error, reference) in
+            if let error = error {
+                print("Error al guardar la transacción: \(error.localizedDescription)")
+                // Maneja el error, por ejemplo, mostrando una alerta al usuario
+            } else {
+                print("Transacción guardada exitosamente")
+                self.updateProductStock() // Llamar a la función para actualizar el stock del producto
+            }
+        }
+    }
+
+    
+    func updateProductStock() {
+        let ref = Database.database().reference().child("productos")
+        ref.observeSingleEvent(of: .value) { snapshot in
+            guard let productosSnapshot = snapshot.value as? [String: [String: Any]] else {
+                return
+            }
+            
+            for (productId, productData) in productosSnapshot {
+                if let productName = productData["nombre"] as? String, productName == selectedProduct {
+                    let productoRef = ref.child(productId).child("cantidad")
+                    productoRef.setValue(String(totalDespuesTransaccion)) { (error, reference) in
+                        if let error = error {
+                            print("Error al actualizar el stock del producto: \(error.localizedDescription)")
+                            // Maneja el error, por ejemplo, mostrando una alerta al usuario
+                        } else {
+                            print("Stock del producto actualizado exitosamente")
+                            // Realiza cualquier acción adicional después de actualizar el stock, como limpiar los campos o mostrar una notificación al usuario
+                        }
+                    }
+                    return
+                }
+            }
+        }
+    }
+    
+    struct AlertMessage {
+        var title: String
+        var message: String
+    }
+    
+    func handleAlertDismissed() {
+        self.alertMessage = nil
+    }
+
+
+
+    
+    
 
     
     
@@ -209,7 +310,7 @@ struct AgregarTransac: View {
                 
                 Section {
                     Button(action: {
-                        
+                        saveTransaccion()
                     }) {
                         Text("Guardar")
                             .frame(maxWidth: .infinity)
@@ -217,6 +318,19 @@ struct AgregarTransac: View {
                             .background(Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(10)
+                    }
+                }
+                .alert(isPresented: $showAlert) {
+                    if let alertMessage = alertMessage {
+                        return Alert(
+                            title: Text(alertMessage.title),
+                            message: Text(alertMessage.message),
+                            dismissButton: .default(Text("OK")) {
+                                handleAlertDismissed()
+                            }
+                        )
+                    } else {
+                        return Alert(title: Text("Error"), message: Text("Se ha producido un error"), dismissButton: .default(Text("OK")))
                     }
                 }
             }
