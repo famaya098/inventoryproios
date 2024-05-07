@@ -28,6 +28,10 @@ struct ProductosScreen: View {
     @State private var fechaCreacion = Date()
     @State private var alertMessage: AlertMessage?
     @State private var showAlert = false
+    
+    @State private var showSuccessMessage = false
+    @State private var bannerMessage = ""
+
 
     
     var estatusOptions: [String] = ["Activo", "Inactivo", "Descontinuado"]
@@ -151,6 +155,14 @@ struct ProductosScreen: View {
 
             }
             .navigationBarTitle("Añadir Producto", displayMode: .inline)
+            .overlay(
+                ToastView(showToast: $showSuccessMessage, message: "Producto creado exitosamente")
+                    .opacity(showSuccessMessage ? 1 : 0)
+                    .animation(.easeInOut(duration: 0.5))
+                    .padding()
+                    .offset(y: -50) // Ajusta la posición vertical según tu preferencia
+            )
+
                    }
                    .onAppear {
                        fechaCreacion = Date()
@@ -209,13 +221,23 @@ struct ProductosScreen: View {
 
                 // Guardar el producto en Firebase Realtime Database y la foto en Firebase Storage
     private func saveProduct() {
+        
+        
         // Verificar que los campos obligatorios no estén vacíos
         guard !nombre.isEmpty && !descripcion.isEmpty && !precioCompra.isEmpty && !precioVenta.isEmpty && !cantidad.isEmpty && !unidad.isEmpty else {
-                // Mostrar una alerta al usuario
-                self.alertMessage = AlertMessage(title: "Error", message: "Todos los campos son obligatorios. Asegúrate de completarlos antes de guardar.")
-                self.showAlert = true
-                return
-            }
+            // Mostrar una alerta al usuario
+            self.alertMessage = AlertMessage(title: "Error", message: "Todos los campos son obligatorios. Asegúrate de completarlos antes de guardar.")
+            self.showAlert = true
+            return
+        }
+        
+        // Verificar si se ha seleccionado una imagen
+        guard selectedImage != nil else {
+            // Mostrar una alerta al usuario indicando que debe seleccionar una foto
+            self.alertMessage = AlertMessage(title: "Error", message: "Debes seleccionar una foto antes de guardar el producto.")
+            self.showAlert = true
+            return
+        }
 
                     // Obtener una referencia a la base de datos y a Storage
                     let dbRef = Database.database().reference()
@@ -259,7 +281,15 @@ struct ProductosScreen: View {
                                                 
                                             } else {
                                                 print("Producto guardado exitosamente en Firebase Realtime Database")
-                                                
+                                                // Después de guardar el producto exitosamente
+                                                showSuccessMessage = true
+
+                                                // Iniciar un temporizador para ocultar el mensaje después de unos segundos
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                                    showSuccessMessage = false
+                                                }
+
+
                                                 clearFields()
                                             }
                                         }
@@ -286,4 +316,28 @@ struct ProductosScreen: View {
                     codigo = ProductosScreen.generateUniqueCode()
                     fechaCreacion = Date()
                 }
+    
+    
+    struct ToastView: View {
+        @Binding var showToast: Bool
+        var message: String
+        
+        var body: some View {
+            VStack {
+                Spacer()
+                if showToast {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(Color.black.opacity(0.8))
+                            .frame(height: 50)
+                        Text(message)
+                            .foregroundColor(.white)
+                    }
+                    .padding()
+                }
+            }
+            .transition(.move(edge: .bottom))
+            .animation(.easeInOut)
+        }
+    }
             }

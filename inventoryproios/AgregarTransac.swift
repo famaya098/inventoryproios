@@ -7,6 +7,7 @@
 import SwiftUI
 import FirebaseDatabase
 import FirebaseAuth
+import Dispatch
 
 struct AgregarTransac: View {
     @State private var codigoTransaccion: String = generateUniqueTransactionCode()
@@ -14,7 +15,7 @@ struct AgregarTransac: View {
     @State private var cantidad: String = ""
     @State private var tipoTransaccion: String = "Entrada"
     @State private var totalDespuesTransaccion: Int = 0
-    @State private var productNames: [String] = [] // almacenar los nombres de los productos
+    @State private var productNames: [String] = [] // esto almacena los nombres de los productos
     @State private var selectedProduct: String = "Seleccionar producto"
     @State private var stock: Int = 0
     @State private var createdUser: String = ""
@@ -22,6 +23,9 @@ struct AgregarTransac: View {
     
     @State private var showAlert = false
     @State private var alertMessage: AlertMessage?
+    @State private var showSuccessMessage = false
+    @State private var showBanner = false
+    @State private var bannerMessage = ""
     
     // generar un código único de transacción
     private static func generateUniqueTransactionCode() -> String {
@@ -41,46 +45,46 @@ struct AgregarTransac: View {
         }
     }
     
-    // Función para cargar el nombre del usuario desde Firebase
-        private func loadCreatedUser() {
-            guard let user = Auth.auth().currentUser else {
-                // Si no hay usuario autenticado, establecer un valor predeterminado
-                createdUser = "Desconocido"
-                return
-            }
-
-            // Obtener el nombre de usuario desde la base de datos en tiempo real de Firebase
-            let databaseRef = Database.database().reference().child("usuarios").child(user.uid)
-            databaseRef.observeSingleEvent(of: .value) { snapshot in
-                if let userData = snapshot.value as? [String: Any],
-                   let username = userData["username"] as? String {
-                    self.createdUser = username
-                } else {
-                    self.createdUser = "Desconocido"
-                }
+    // funcion para cargar el nombre del usuario desde Firebase
+    private func loadCreatedUser() {
+        guard let user = Auth.auth().currentUser else {
+            // Si no hay usuario autenticado, establecer un valor predeterminado
+            createdUser = "Desconocido"
+            return
+        }
+        
+        // para obtener el nombre de usuario desde la base de datos en tiempo real de Firebase
+        let databaseRef = Database.database().reference().child("usuarios").child(user.uid)
+        databaseRef.observeSingleEvent(of: .value) { snapshot in
+            if let userData = snapshot.value as? [String: Any],
+               let username = userData["username"] as? String {
+                self.createdUser = username
+            } else {
+                self.createdUser = "Desconocido"
             }
         }
+    }
     
     func formattedDate(date: Date) -> String {
-           let formatter = DateFormatter()
-           formatter.dateStyle = .medium
-           formatter.timeStyle = .medium
-           return formatter.string(from: date)
-       }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        return formatter.string(from: date)
+    }
     
-    // Función para calcular el total de stock después de la transacción
-        private func calcularTotalDespuesTransaccion() {
-            guard let cantidadInt = Int(cantidad) else {
-                totalDespuesTransaccion = 0
-                return
-            }
-            
-            if tipoTransaccion == "Entrada" {
-                totalDespuesTransaccion = stock + cantidadInt
-            } else {
-                totalDespuesTransaccion = stock - cantidadInt
-            }
+    // función para calcular el total de stock después de la transacción
+    private func calcularTotalDespuesTransaccion() {
+        guard let cantidadInt = Int(cantidad) else {
+            totalDespuesTransaccion = 0
+            return
         }
+        
+        if tipoTransaccion == "Entrada" {
+            totalDespuesTransaccion = stock + cantidadInt
+        } else {
+            totalDespuesTransaccion = stock - cantidadInt
+        }
+    }
     
     private func getStockForSelectedProduct() {
         guard selectedProduct != "Seleccionar producto" else {
@@ -98,10 +102,10 @@ struct AgregarTransac: View {
                 if let productName = productData["nombre"] as? String, productName == selectedProduct {
                     print("Datos del producto seleccionado: \(productData)")
                     
-                    // Verifica si el campo cantidad existe y es un número
+                    // verifica si el campo cantidad existe y es un número
                     if let stockValue = productData["cantidad"] as? String, let stockInt = Int(stockValue) {
                         self.stock = stockInt
-                        // Llama a la función para calcular el total después de actualizar el stock
+                        // llamamos a la función para calcular el total después de actualizar el stock
                         calcularTotalDespuesTransaccion()
                         return
                     } else {
@@ -118,30 +122,30 @@ struct AgregarTransac: View {
     }
     
     func saveTransaccion() {
-        // Validación: Verificar si se seleccionó un producto
+        // verificar si se seleccionó un producto
         guard selectedProduct != "Seleccionar producto" else {
-            // Mostrar un mensaje de error
+            // mensaje de error
             self.alertMessage = AlertMessage(title: "Error", message: "Debes elegir un producto")
             self.showAlert = true
             return
         }
         
-        // Validación: Verificar si la cantidad es mayor que 0
-            guard let cantidadInt = Int(cantidad), cantidadInt > 0 else {
-                // Mostrar un mensaje de error
-                self.alertMessage = AlertMessage(title: "Error", message: "Para realizar una transacción, la cantidad debe ser mayor a 0")
-                self.showAlert = true
-                return
-            }
-            
-            // Validación: Verificar si el totalDespuesTransaccion es positivo
-            guard totalDespuesTransaccion >= 0 else {
-                // Mostrar un mensaje de error
-                self.alertMessage = AlertMessage(title: "Error", message: "No hay suficiente stock para la transacción")
-                self.showAlert = true
-                return
-            }
-
+        // verificar si la cantidad es mayor que 0
+        guard let cantidadInt = Int(cantidad), cantidadInt > 0 else {
+            // mensaje de error
+            self.alertMessage = AlertMessage(title: "Error", message: "Para realizar una transacción, la cantidad debe ser mayor a 0")
+            self.showAlert = true
+            return
+        }
+        
+        // verificar si el totalDespuesTransaccion es positivo
+        guard totalDespuesTransaccion >= 0 else {
+            // mensaje de error
+            self.alertMessage = AlertMessage(title: "Error", message: "No hay suficiente stock para la transacción")
+            self.showAlert = true
+            return
+        }
+        
         let codigoTransaccion = self.codigoTransaccion
         let fecha = self.formattedDate(date: self.fecha)
         let producto = self.selectedProduct
@@ -150,7 +154,7 @@ struct AgregarTransac: View {
         let tipoTransaccion = self.tipoTransaccion
         let totalStock = String(self.totalDespuesTransaccion)
         let creadoPor = self.createdUser
-
+        
         let transaccionData: [String: Any] = [
             "codigoTransaccion": codigoTransaccion,
             "fechaCreacion": fecha,
@@ -161,20 +165,46 @@ struct AgregarTransac: View {
             "stockFinal": totalStock,
             "creadoPor": creadoPor
         ]
-
+        
         let transaccionesRef = Database.database().reference().child("transacciones")
-        let childRef = transaccionesRef.childByAutoId() // Obtener una clave única para la transacción
-        childRef.setValue(transaccionData) { (error, reference) in
-            if let error = error {
-                print("Error al guardar la transacción: \(error.localizedDescription)")
-                // Maneja el error, por ejemplo, mostrando una alerta al usuario
-            } else {
-                print("Transacción guardada exitosamente")
-                self.updateProductStock() // Llamar a la función para actualizar el stock del producto
+            let childRef = transaccionesRef.childByAutoId() // clave única para la transacción
+            childRef.setValue(transaccionData) { (error, reference) in
+                if let error = error {
+                    print("Error al guardar la transacción: \(error.localizedDescription)")
+                    // Maneja el error, por ejemplo, mostrando una alerta al usuario
+                } else {
+                    print("Transacción guardada exitosamente")
+                    self.updateProductStock() // llamamos a la función para actualizar el stock del producto
+                    
+                    // generamos un nuevo código de transacción
+                    self.codigoTransaccion = AgregarTransac.generateUniqueTransactionCode()
+                    
+                    // actualizamos la fecha
+                    self.fecha = Date()
+
+                    
+                    // mostramos un mensaje de éxito y limpiar el campo de cantidad
+                    self.showSuccessMessage = true
+                    let productName = self.selectedProduct // almacenamos el nombre del producto antes de restablecer selectedProduct
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.showSuccessMessage = false
+                        self.cantidad = "" // limpiamos el campo de cantidad
+                        let previousProductName = productName // nombre del producto almacenado
+                        self.selectedProduct = "Seleccionar producto" // reestablecemos el producto seleccionado
+                        
+                        // verificamos si el stock después de la transacción es bajo y mostrar un mensaje al usuario
+                        if self.totalDespuesTransaccion <= 10 && self.totalDespuesTransaccion >= 0 {
+                            self.alertMessage = AlertMessage(title: "Advertencia", message: "El stock del producto \(previousProductName) es bajo. Considera agregar más stock.")
+                            self.showAlert = true
+                        }
+                    }
+                    
+                    
+                }
             }
         }
-    }
-
+    
+    
     
     func updateProductStock() {
         let ref = Database.database().reference().child("productos")
@@ -189,10 +219,10 @@ struct AgregarTransac: View {
                     productoRef.setValue(String(totalDespuesTransaccion)) { (error, reference) in
                         if let error = error {
                             print("Error al actualizar el stock del producto: \(error.localizedDescription)")
-                            // Maneja el error, por ejemplo, mostrando una alerta al usuario
+                            
                         } else {
                             print("Stock del producto actualizado exitosamente")
-                            // Realiza cualquier acción adicional después de actualizar el stock, como limpiar los campos o mostrar una notificación al usuario
+                            
                         }
                     }
                     return
@@ -209,15 +239,15 @@ struct AgregarTransac: View {
     func handleAlertDismissed() {
         self.alertMessage = nil
     }
-
-
-
     
     
-
     
     
-
+    
+    
+    
+    
+    
     var body: some View {
         NavigationView {
             Form {
@@ -230,9 +260,9 @@ struct AgregarTransac: View {
                     }
                     
                     HStack {
-                                            Image(systemName: "calendar")
-                                            Text("Fecha: \(formattedDate(date: fecha))")
-                                        }
+                        Image(systemName: "calendar")
+                        Text("Fecha: \(formattedDate(date: fecha))")
+                    }
                     // utiliza los nombres de los productos para inicializar el Picker
                     Picker("Producto", selection: $selectedProduct) {
                         Text("Seleccionar producto").tag("Seleccionar producto")
@@ -242,17 +272,19 @@ struct AgregarTransac: View {
                     }
                     .onAppear {
                         getProductNamesFromFirebase()
-                        getStockForSelectedProduct() // Llamar a la función en la carga inicial
+                        getStockForSelectedProduct() // llamamops a la función en la carga inicial
+                        loadCreatedUser() // llamamos a la función para cargar el nombre del usuario autenticado
                     }
+
                     .onChange(of: selectedProduct) { productName in
-                        getStockForSelectedProduct() // Llamar a la función cuando se cambia el producto seleccionado
+                        getStockForSelectedProduct() // llamamos a la función cuando se cambia el producto seleccionado
                     }
                     .keyboardType(.default)
-
-
+                    
+                    
                     Text("Stock actual: \(stock)")
                         .foregroundColor(stock > 0 ? .green : .red)
-                     
+                    
                     
                     HStack {
                         Image(systemName: "number")
@@ -262,7 +294,7 @@ struct AgregarTransac: View {
                                 calcularTotalDespuesTransaccion()
                             }
                     }
-
+                    
                     Picker("Tipo de Transacción", selection: $tipoTransaccion) {
                         HStack {
                             if tipoTransaccion == "Entrada" {
@@ -273,7 +305,7 @@ struct AgregarTransac: View {
                             Text("Entrada")
                         }
                         .tag("Entrada")
-
+                        
                         HStack {
                             if tipoTransaccion == "Salida" {
                                 Image(systemName: "arrow.up.circle.fill")
@@ -287,7 +319,7 @@ struct AgregarTransac: View {
                     .onChange(of: tipoTransaccion) { _ in
                         calcularTotalDespuesTransaccion()
                     }
-
+                    
                     
                     Text("Total Stock: \(cantidad.isEmpty ? stock : totalDespuesTransaccion)")
                         .foregroundColor(totalDespuesTransaccion >= 0 ? .black : .red)
@@ -299,14 +331,14 @@ struct AgregarTransac: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(totalDespuesTransaccion > 0 ? Color.green : (totalDespuesTransaccion == 0 ? Color.black : Color.red), lineWidth: 2)
                         )
-
-
+                    
+                    
                         .frame(maxWidth: .infinity)
-
+                    
                 }
                 Section(header: Text("Creado por").font(.headline)) {
-                                    Text(createdUser)
-                                }
+                    Text(createdUser)
+                }
                 
                 Section {
                     Button(action: {
@@ -335,9 +367,38 @@ struct AgregarTransac: View {
                 }
             }
             .navigationBarTitle("Agregar Transacción", displayMode: .inline)
-                        .onAppear {
-                            loadCreatedUser() // Cargar el nombre del usuario cuando la vista aparece
-                        }
+            // Agregar el ToastView para mostrar el mensaje de éxito
+            .overlay(
+                ToastView(showToast: $showSuccessMessage, message: "Transacción guardada exitosamente")
+                    .opacity(showSuccessMessage ? 1 : 0)
+                    .animation(.easeInOut(duration: 0.5))
+                    .padding()
+                    .offset(y: -50) // Ajusta la posición vertical según tu preferencia
+            )
         }
     }
+    
+    struct ToastView: View {
+        @Binding var showToast: Bool
+        var message: String
+        
+        var body: some View {
+            VStack {
+                Spacer()
+                if showToast {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(Color.black.opacity(0.8))
+                            .frame(height: 50)
+                        Text(message)
+                            .foregroundColor(.white)
+                    }
+                    .padding()
+                }
+            }
+            .transition(.move(edge: .bottom))
+            .animation(.easeInOut)
+        }
+    }
+    
 }

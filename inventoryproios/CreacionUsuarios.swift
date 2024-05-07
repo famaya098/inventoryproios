@@ -264,6 +264,13 @@ struct CreacionUsuarios: View {
             print("Error: Campos vacíos")
             return
         }
+        
+        guard let _ = selectedImage else {
+               // Mostrar una alerta indicando que el usuario debe seleccionar una foto
+               self.alertMessage = AlertMessage(title: "Error", message: "Debes seleccionar una foto antes de guardar el usuario.")
+               self.showAlert = true
+               return
+           }
 
         print("Todos los campos están completos. Continuando con el registro...")
 
@@ -275,7 +282,7 @@ struct CreacionUsuarios: View {
                 print("Error al registrar usuario:", error.localizedDescription)
             } else {
                 
-                self.alertMessage = AlertMessage(title: "Genial!", message: "\(username) ha sido creado con éxito.")
+                self.alertMessage = AlertMessage(title: "Éxito", message: "\(username) ha sido creado correctamente.")
                 self.showAlert = true
                 saveUserData()
                 clearFields()
