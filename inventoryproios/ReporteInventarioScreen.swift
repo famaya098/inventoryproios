@@ -6,76 +6,133 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
+
+struct ProductCardView: View {
+    let producto: ProductoModel
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            WebImage(url: URL(string: producto.photoURL))
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .cornerRadius(10)
+            
+            Text(producto.nombre)
+                .font(.headline)
+                .foregroundColor(.primary)
+            
+            Text(producto.descripcion)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            
+            HStack {
+                Text("Código: \(producto.codigo)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text("Stock: \(producto.cantidad)")
+                    .font(.caption)
+                    .foregroundColor(producto.cantidad == "0" ? .red : .green)
+            }
+            
+            HStack {
+                Text("Precio compra: $\(producto.precioCompra)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text("Precio venta: $\(producto.precioVenta)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Unidad: \(producto.unidad)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text("Creado por: \(producto.createdUser)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(10)
+        .shadow(radius: 2)
+    }
+}
+
+struct ProductSearchBar: View {
+    @Binding var text: String
+
+    var body: some View {
+        HStack {
+            TextField("Buscar producto", text: $text)
+                .padding(8)
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+                .padding(.horizontal)
+                .padding(.top, 8)
+            Spacer()
+        }
+    }
+}
 
 struct ReporteInventarioScreen: View {
-    // Estructura para representar un producto
-    struct Producto {
-        let nombre: String
-        let codigo: String
-        let precioCompra: String
-        let precioVenta: String
-        let stock: String
-        let unidad: String
-        let photoURL: String
-    }
-    
-    // Lista de productos simulados con información quemada
-    let productos: [Producto] = [
-        Producto(nombre: "Televisor Samsung", codigo: "7155AEAE-6E38-4F31-9D01-C27DA3EACF3D", precioCompra: "$300", precioVenta: "$450", stock: "100", unidad: "Cajas", photoURL: "television"),
-        Producto(nombre: "Celular Samsung", codigo: "FD8FDB83-5989-4945-835F-9C48D1936FE7", precioCompra: "$999", precioVenta: "$1499", stock: "100", unidad: "Cajas", photoURL: "chat")
-    ]
-    
-    // Propiedades para la barra de búsqueda
+    @State private var productos: [ProductoModel] = []
     @State private var searchText = ""
     
     var body: some View {
-        VStack {
-            Text("Productos")
-                .font(.title)
-                .foregroundColor(.black)
-                .padding()
-            
-            HStack {
-                TextField("Buscar en el Stock", text: $searchText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                
-                Button(action: {
-                    // Acción del botón de búsqueda
-                }) {
-                    Text("Buscar")
+        NavigationView {
+            VStack {
+                ProductSearchBar(text: $searchText)
+                    .padding(.horizontal)
+
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        ForEach(productos.filter {
+                            searchText.isEmpty ? true : $0.nombre.localizedCaseInsensitiveContains(searchText)
+                        }) { producto in
+                            ProductCardView(producto: producto)
+                                .padding(.horizontal)
+                        }
+                    }
                 }
-                .padding(.trailing)
-                
-                Button(action: {
-                    // Acción del botón de imprimir
-                }) {
-                    Text("Agregar (+)")
-                }
-                .padding(.trailing)
+                .navigationBarTitle("Listado Productos", displayMode: .inline)
+                .navigationBarItems(trailing: HStack {
+                    NavigationLink(destination: ProductosScreen()) {
+                        Image(systemName: "plus")
+                            .foregroundColor(.accentColor)
+                    }
+                    Button(action: {
+                        printProductList(productos)
+                    }) {
+                        Image(systemName: "printer")
+                            .foregroundColor(.accentColor)
+                    }
+                })
+
             }
-            
-            List(productos.filter {
-                searchText.isEmpty || $0.nombre.localizedStandardContains(searchText)
-            }, id: \.codigo) { producto in
-                VStack(alignment: .leading) {
-                    Image(producto.photoURL)
-                        .resizable()
-                        .frame(width: 96, height: 96)
-                        .padding()
-                    
-                    Text(producto.nombre)
-                        .font(.headline)
-                    
-                    Text("Código: \(producto.codigo)")
-                    Text("Precio Compra: \(producto.precioCompra)")
-                    Text("Precio Venta: \(producto.precioVenta)")
-                    Text("Stock: \(producto.stock)")
-                    Text("Unidad: \(producto.unidad)")
+            .onAppear {
+                fetchProductos { productos in
+                    self.productos = productos
                 }
             }
-            
-            Spacer()
         }
+    }
+}
+
+struct ReporteInventarioScreen_Previews: PreviewProvider {
+    static var previews: some View {
+        ReporteInventarioScreen()
     }
 }

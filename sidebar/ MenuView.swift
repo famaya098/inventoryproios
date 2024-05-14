@@ -24,7 +24,7 @@ struct MenuView: View {
             }
             
             NavigationLink(destination: EmptyView()) {
-                                menuItem(systemName: "info.circle", title: "Detalle del Producto")
+                                menuItem(systemName: "info.circle", title: "Detalle Producto")
                             }
             
             NavigationLink(destination: EmptyView()) {

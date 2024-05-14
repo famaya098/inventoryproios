@@ -282,6 +282,8 @@ struct CreacionUsuarios: View {
                 print("Error al registrar usuario:", error.localizedDescription)
             } else {
                 
+                self.creadopor = self.createdUser 
+                
                 self.alertMessage = AlertMessage(title: "Éxito", message: "\(username) ha sido creado correctamente.")
                 self.showAlert = true
                 saveUserData()

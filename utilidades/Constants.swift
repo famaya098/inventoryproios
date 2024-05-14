@@ -24,5 +24,5 @@ struct MenuLateral {
     static let facturacion = "Facturación"
     static let reportes = "Reportes"
     static let configuracion = "Configuración"
-    static let administrarAcceso = "Administrar accesos"
+    static let administrarAcceso = "Creación Usuarios"
 }

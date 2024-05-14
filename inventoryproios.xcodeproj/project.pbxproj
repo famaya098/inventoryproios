@@ -25,6 +25,13 @@
 		8385C44C2BCD886F00A97444 /* ReporteTransac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C44B2BCD886F00A97444 /* ReporteTransac.swift */; };
 		8385C44E2BCDB8B600A97444 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C44D2BCDB8B600A97444 /* SessionManager.swift */; };
 		8385C4692BCE12DD00A97444 /* CreacionUsuarios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385C4682BCE12DD00A97444 /* CreacionUsuarios.swift */; };
+		83AAEA2A2BF26D750077D9B2 /* ProductoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEA292BF26D750077D9B2 /* ProductoModel.swift */; };
+		83AAEA2C2BF26DD10077D9B2 /* fetchProductos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEA2B2BF26DD10077D9B2 /* fetchProductos.swift */; };
+		83AAEA2F2BF26FED0077D9B2 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 83AAEA2E2BF26FED0077D9B2 /* SDWebImageSwiftUI */; };
+		83AAEA312BF28ECE0077D9B2 /* printProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEA302BF28ECE0077D9B2 /* printProductList.swift */; };
+		83AAEA332BF2C7CF0077D9B2 /* TransaccionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEA322BF2C7CF0077D9B2 /* TransaccionModel.swift */; };
+		83AAEA352BF2C7E60077D9B2 /* fetchTransacciones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEA342BF2C7E60077D9B2 /* fetchTransacciones.swift */; };
+		83AAEA372BF2C7FA0077D9B2 /* printTransaccionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEA362BF2C7FA0077D9B2 /* printTransaccionList.swift */; };
 		83CAF4C22BCEC13B003F6962 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CAF4C12BCEC13B003F6962 /* ImagePicker.swift */; };
 		83CAF4C42BCED593003F6962 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 83CAF4C32BCED593003F6962 /* FirebaseDatabase */; };
 		83CAF4C62BCED593003F6962 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 83CAF4C52BCED593003F6962 /* FirebaseFirestore */; };
@@ -72,6 +79,12 @@
 		8385C44D2BCDB8B600A97444 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		8385C45F2BCDDE5D00A97444 /* inventoryproiosTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inventoryproiosTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		8385C4682BCE12DD00A97444 /* CreacionUsuarios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreacionUsuarios.swift; sourceTree = "<group>"; };
+		83AAEA292BF26D750077D9B2 /* ProductoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductoModel.swift; sourceTree = "<group>"; };
+		83AAEA2B2BF26DD10077D9B2 /* fetchProductos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchProductos.swift; sourceTree = "<group>"; };
+		83AAEA302BF28ECE0077D9B2 /* printProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = printProductList.swift; sourceTree = "<group>"; };
+		83AAEA322BF2C7CF0077D9B2 /* TransaccionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransaccionModel.swift; sourceTree = "<group>"; };
+		83AAEA342BF2C7E60077D9B2 /* fetchTransacciones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchTransacciones.swift; sourceTree = "<group>"; };
+		83AAEA362BF2C7FA0077D9B2 /* printTransaccionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = printTransaccionList.swift; sourceTree = "<group>"; };
 		83CAF4C12BCEC13B003F6962 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		83CF06622BD38650007F0A7B /* CambiarContrasena.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambiarContrasena.swift; sourceTree = "<group>"; };
 		83CF06642BD38B13007F0A7B /* DetalleProducto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetalleProducto.swift; sourceTree = "<group>"; };
@@ -93,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83AAEA2F2BF26FED0077D9B2 /* SDWebImageSwiftUI in Frameworks */,
 				810148CB2BBCF98000803E2A /* FirebaseAnalyticsSwift in Frameworks */,
 				810148CD2BBCF98000803E2A /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				83CAF4C82BCED593003F6962 /* FirebaseStorage in Frameworks */,
@@ -198,6 +212,12 @@
 				8385C45F2BCDDE5D00A97444 /* inventoryproiosTests-Bridging-Header.h */,
 				83CF06622BD38650007F0A7B /* CambiarContrasena.swift */,
 				83CF06642BD38B13007F0A7B /* DetalleProducto.swift */,
+				83AAEA292BF26D750077D9B2 /* ProductoModel.swift */,
+				83AAEA2B2BF26DD10077D9B2 /* fetchProductos.swift */,
+				83AAEA302BF28ECE0077D9B2 /* printProductList.swift */,
+				83AAEA322BF2C7CF0077D9B2 /* TransaccionModel.swift */,
+				83AAEA342BF2C7E60077D9B2 /* fetchTransacciones.swift */,
+				83AAEA362BF2C7FA0077D9B2 /* printTransaccionList.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -237,6 +257,7 @@
 				83CAF4C32BCED593003F6962 /* FirebaseDatabase */,
 				83CAF4C52BCED593003F6962 /* FirebaseFirestore */,
 				83CAF4C72BCED593003F6962 /* FirebaseStorage */,
+				83AAEA2E2BF26FED0077D9B2 /* SDWebImageSwiftUI */,
 			);
 			productName = inventoryproios;
 			productReference = 83E728832BB088F100ADCEB2 /* inventoryproios.app */;
@@ -314,6 +335,7 @@
 			packageReferences = (
 				834D88B82BB0C82900656167 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8385C4582BCDC7C200A97444 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				83AAEA2D2BF26FED0077D9B2 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 83E728842BB088F100ADCEB2 /* Products */;
 			projectDirPath = "";
@@ -361,18 +383,24 @@
 				83E728B32BB08BB700ADCEB2 /* SignInScreenView.swift in Sources */,
 				83CF06632BD38650007F0A7B /* CambiarContrasena.swift in Sources */,
 				814B9A3E2BBE0CCD00960D29 /*  MenuView.swift in Sources */,
+				83AAEA332BF2C7CF0077D9B2 /* TransaccionModel.swift in Sources */,
+				83AAEA2A2BF26D750077D9B2 /* ProductoModel.swift in Sources */,
 				83E728B12BB08ABD00ADCEB2 /* WelcomeScreenView.swift in Sources */,
 				8385C4462BCD87CE00A97444 /* ProductosScreen.swift in Sources */,
 				8385C44C2BCD886F00A97444 /* ReporteTransac.swift in Sources */,
 				8385C44A2BCD884500A97444 /* ReporteInventarioScreen.swift in Sources */,
 				8385C44E2BCDB8B600A97444 /* SessionManager.swift in Sources */,
 				834D88C02BB0CB5500656167 /* HomePageScreenView.swift in Sources */,
+				83AAEA372BF2C7FA0077D9B2 /* printTransaccionList.swift in Sources */,
 				83E728892BB088F100ADCEB2 /* ContentView.swift in Sources */,
 				834D88BE2BB0C97200656167 /* AppDelegate.swift in Sources */,
+				83AAEA352BF2C7E60077D9B2 /* fetchTransacciones.swift in Sources */,
+				83AAEA2C2BF26DD10077D9B2 /* fetchProductos.swift in Sources */,
 				81CDAE6D2BB6684400108DD5 /* Constants.swift in Sources */,
 				8385C4692BCE12DD00A97444 /* CreacionUsuarios.swift in Sources */,
 				83E728872BB088F100ADCEB2 /* inventoryproiosApp.swift in Sources */,
 				83CAF4C22BCEC13B003F6962 /* ImagePicker.swift in Sources */,
+				83AAEA312BF28ECE0077D9B2 /* printProductList.swift in Sources */,
 				8385C4482BCD87F500A97444 /* AgregarTransac.swift in Sources */,
 				81CDAE6A2BB6668D00108DD5 /* HeaderView.swift in Sources */,
 				83CF06652BD38B13007F0A7B /* DetalleProducto.swift in Sources */,
@@ -725,6 +753,14 @@
 				minimumVersion = 5.1.1;
 			};
 		};
+		83AAEA2D2BF26FED0077D9B2 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -752,6 +788,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 834D88B82BB0C82900656167 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		83AAEA2E2BF26FED0077D9B2 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83AAEA2D2BF26FED0077D9B2 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 		83CAF4C32BCED593003F6962 /* FirebaseDatabase */ = {
 			isa = XCSwiftPackageProductDependency;
