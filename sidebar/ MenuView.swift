@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MenuView: View {
     @EnvironmentObject var sessionManager: SessionManager
-    
+    @Binding var showMenu: Bool  // Añadido
+
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
@@ -19,13 +20,16 @@ struct MenuView: View {
                 .foregroundColor(.white)
                 .padding(.top, 25)
             
-            NavigationLink(destination: EmptyView()) {
+            // NavigationLink for Inicio
+            Button(action: {
+                self.showMenu = false  // Close the menu
+            }) {
                 menuItem(systemName: "house.fill", title: MenuLateral.inicio)
             }
-            
+
             NavigationLink(destination: EmptyView()) {
-                                menuItem(systemName: "info.circle", title: "Detalle Producto")
-                            }
+                menuItem(systemName: "info.circle", title: "Detalle Producto")
+            }
             
             NavigationLink(destination: EmptyView()) {
                 menuItem(systemName: "arrow.up.arrow.down.circle.fill", title: "Transacciones Realizadas")
@@ -42,7 +46,6 @@ struct MenuView: View {
             NavigationLink(destination: CambiarContrasena()) {
                 menuItem(systemName: "key.fill", title: "Cambiar Contraseña")
             }
-
             
             NavigationLink(destination: CreacionUsuarios()) {
                 menuItem(systemName: "person.2.fill", title: MenuLateral.administrarAcceso)
@@ -89,6 +92,6 @@ struct MenuView: View {
 
 struct MenuView_Preview: PreviewProvider {
     static var previews: some View {
-        MenuView()
+        MenuView(showMenu: .constant(true))
     }
 }

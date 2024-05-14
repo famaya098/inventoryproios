@@ -24,21 +24,21 @@ struct HomePageScreenView: View {
             }
         
         return NavigationView {
-                   GeometryReader { geometry in
-                       ZStack (alignment: .leading){
-                           MainView(showMenu: self.$showMenu, username: self.username)
-                               .frame(width: geometry.size.width,
-                                      height: geometry.size.height)
-                               .offset(x: self.showMenu ? geometry.size.width/2: 0)
-                               .disabled(self.showMenu ? true : false)
-                           if self.showMenu {
-                               MenuView()
-                                   .frame(width: geometry.size.width/2)
-                                   .transition(.move(edge: .leading))
-                           }
-                       }
-                       .gesture(drag)
+            GeometryReader { geometry in
+                ZStack (alignment: .leading) {
+                    MainView(showMenu: self.$showMenu, username: self.username)
+                        .frame(width: geometry.size.width,
+                               height: geometry.size.height)
+                        .offset(x: self.showMenu ? geometry.size.width/2 : 0)
+                        .disabled(self.showMenu ? true : false)
+                    if self.showMenu {
+                        MenuView(showMenu: self.$showMenu)  // Updated to pass binding
+                            .frame(width: geometry.size.width/2)
+                            .transition(.move(edge: .leading))
                     }
+                }
+                .gesture(drag)
+            }
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(leading: (
                 Button(action: {
