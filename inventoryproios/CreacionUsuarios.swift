@@ -7,11 +7,8 @@
 
 import SwiftUI
 import Firebase
-import FirebaseFirestoreInternal
-
 import FirebaseStorage
-import FirebaseDatabaseInternal
-
+import FirebaseDatabase
 
 struct AlertMessage {
     var title: String
@@ -46,8 +43,6 @@ struct CreacionUsuarios: View {
     @State private var showAlert = false
     @State private var showSuccessNotification = false
     @State private var createdUser: String = ""
-    
-    
     
     var body: some View {
         NavigationView {
@@ -89,7 +84,6 @@ struct CreacionUsuarios: View {
                     }
                     DatePicker("Fecha Nacimiento", selection: $fechaNacimiento, in: ...Date(), displayedComponents: .date)
                 }
-
                 
                 Section(header: Text("Agregar Foto").font(.headline)) {
                     ZStack {
@@ -126,7 +120,6 @@ struct CreacionUsuarios: View {
                     }
                 }
                 
-                
                 Section(header: Text("Información del Sistema").font(.headline)) {
                     HStack {
                         Image(systemName: "calendar")
@@ -160,16 +153,15 @@ struct CreacionUsuarios: View {
                             .tag(status)
                         }
                     }
-
                 }
-
+                
                 Section(header: Text("Creado por").font(.headline)) {
-                                    Text(createdUser)
-                                }
+                    Text(createdUser)
+                }
+                
                 Section {
                     Button(action: {
                         signUp()
-                        
                     }) {
                         Text("Guardar")
                             .frame(maxWidth: .infinity)
@@ -178,12 +170,10 @@ struct CreacionUsuarios: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
-                    
                 }
             }
             .navigationBarTitle("Crear Usuario", displayMode: .inline)
             .onAppear {
-                
                 fechaCreacion = Date()
                 loadCreatedUser()
             }
@@ -200,7 +190,6 @@ struct CreacionUsuarios: View {
                     return Alert(title: Text("Error"), message: Text("Se ha producido un error"), dismissButton: .default(Text("OK")))
                 }
             }
-            
         }
     }
     
@@ -214,15 +203,13 @@ struct CreacionUsuarios: View {
         formatter.timeStyle = .medium
         return formatter.string(from: date)
     }
-    // Función para cargar el nombre del usuario desde Firebase
+
     private func loadCreatedUser() {
         guard let user = Auth.auth().currentUser else {
-            // Si no hay usuario autenticado, establecer un valor predeterminado
             createdUser = "Desconocido"
             return
         }
         
-        // Obtener el nombre de usuario desde la base de datos en tiempo real de Firebase
         let databaseRef = Database.database().reference().child("usuarios").child(user.uid)
         databaseRef.observeSingleEvent(of: .value) { snapshot in
             if let userData = snapshot.value as? [String: Any],
@@ -251,14 +238,10 @@ struct CreacionUsuarios: View {
         creadopor = ""
         selectedImage = nil
         fechaCreacion = Date()
-        
     }
-       
-//
+    
     func signUp() {
-        
-        guard !email.isEmpty && !contrasena.isEmpty && !nombres.isEmpty && !apellidos.isEmpty && !dui.isEmpty && !username.isEmpty && !tipoPermiso.isEmpty && !telefono.isEmpty && !direccion.isEmpty  else {
-            
+        guard !email.isEmpty && !contrasena.isEmpty && !nombres.isEmpty && !apellidos.isEmpty && !dui.isEmpty && !username.isEmpty && !tipoPermiso.isEmpty && !telefono.isEmpty && !direccion.isEmpty else {
             self.alertMessage = AlertMessage(title: "Error", message: "Todos los campos son obligatorios. Asegúrate de completarlos antes de guardar.")
             self.showAlert = true
             print("Error: Campos vacíos")
@@ -266,122 +249,97 @@ struct CreacionUsuarios: View {
         }
         
         guard let _ = selectedImage else {
-               // Mostrar una alerta indicando que el usuario debe seleccionar una foto
-               self.alertMessage = AlertMessage(title: "Error", message: "Debes seleccionar una foto antes de guardar el usuario.")
-               self.showAlert = true
-               return
-           }
+            self.alertMessage = AlertMessage(title: "Error", message: "Debes seleccionar una foto antes de guardar el usuario.")
+            self.showAlert = true
+            return
+        }
 
         print("Todos los campos están completos. Continuando con el registro...")
 
         Auth.auth().createUser(withEmail: email, password: contrasena) { authResult, error in
             if let error = error {
-                
                 self.alertMessage = AlertMessage(title: "Error", message: "Error al registrar usuario: \(error.localizedDescription)")
                 self.showAlert = true
                 print("Error al registrar usuario:", error.localizedDescription)
             } else {
-                
-                self.creadopor = self.createdUser 
-                
-                self.alertMessage = AlertMessage(title: "Éxito", message: "\(username) ha sido creado correctamente.")
-                self.showAlert = true
-                saveUserData()
-                clearFields()
-                print("Usuario registrado exitosamente.")
+                self.creadopor = self.createdUser
+                self.saveUserData()
             }
         }
     }
-
-
-
-
-
-
-       
-       func saveUserData() {
-           guard let uid = Auth.auth().currentUser?.uid else {
-               
-               return
-           }
-           
-           let db = Database.database().reference()
-           let userData: [String: Any] = [
-               "nombres": nombres,
-               "apellidos": apellidos,
-               "email": email,
-               "dui": dui,
-               "username": username,
-               "tipoPermiso": tipoPermiso,
-               "telefono": telefono,
-               "direccion": direccion,
-               "fechaNacimiento": formattedDate(date: fechaNacimiento),
-               "fechaCreacion": formattedDate(date: fechaCreacion),
-               "estatus": estatus,
-               "creadopor": creadopor
-           ]
-           
-           db.child("usuarios").child(uid).setValue(userData) { error, ref in
-               if let error = error {
-                   
-                   print("Error al guardar datos del usuario en Realtime Database: \(error.localizedDescription)")
-               } else {
-                   
-                   print("Datos del usuario guardados exitosamente en Realtime Database")
-                   
-                   
-                   if let image = selectedImage {
-                       uploadPhoto(uid: uid, image: image)
-                   } else {
-                       
-                       //presentationMode.wrappedValue.dismiss()
-                      
-                   }
-               }
-           }
-       }
-       
-       func uploadPhoto(uid: String, image: UIImage) {
-           guard let imageData = image.jpegData(compressionQuality: 0.5) else {
-               
-               return
-           }
-           
-           let storageRef = Storage.storage().reference().child("usuarios/\(uid).jpg")
-           
-           storageRef.putData(imageData, metadata: nil) { metadata, error in
-               if let error = error {
-                   
-                   print("Error al subir la imagen a Firebase Storage: \(error.localizedDescription)")
-               } else {
-                  
-                   storageRef.downloadURL { url, error in
-                       if let error = error {
-                           
-                           print("Error al obtener la URL de descarga de la imagen: \(error.localizedDescription)")
-                       } else if let url = url {
-                           
-                           updatePhotoURL(uid: uid, url: url.absoluteString)
-                       }
-                   }
-               }
-           }
-       }
-       
-       func updatePhotoURL(uid: String, url: String) {
-           let db = Database.database().reference()
-           let userRef = db.child("usuarios").child(uid)
-           
-           userRef.updateChildValues(["fotoURL": url]) { error, ref in
-               if let error = error {
-                  
-                   print("Error al actualizar la URL de la foto en Realtime Database: \(error.localizedDescription)")
-               } else {
-                   
-                   print("URL de la foto actualizada exitosamente en Realtime Database")
-                   
-                   //presentationMode.wrappedValue.dismiss()
-               }
-           }
-       }
-   }
+    
+    func saveUserData() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        if let image = selectedImage {
+            uploadPhoto(uid: uid, image: image) { photoURL in
+                if let photoURL = photoURL {
+                    self.saveDataToDatabase(uid: uid, photoURL: photoURL)
+                } else {
+                    self.alertMessage = AlertMessage(title: "Error", message: "No se pudo obtener la URL de la foto.")
+                    self.showAlert = true
+                }
+            }
+        } else {
+            self.saveDataToDatabase(uid: uid, photoURL: nil)
+        }
+    }
+    
+    func uploadPhoto(uid: String, image: UIImage, completion: @escaping (String?) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+            completion(nil)
+            return
+        }
+        
+        let storageRef = Storage.storage().reference().child("usuarios/\(uid).jpg")
+        
+        storageRef.putData(imageData, metadata: nil) { metadata, error in
+            if let error = error {
+                print("Error al subir la imagen a Firebase Storage: \(error.localizedDescription)")
+                completion(nil)
+            } else {
+                storageRef.downloadURL { url, error in
+                    if let error = error {
+                        print("Error al obtener la URL de descarga de la imagen: \(error.localizedDescription)")
+                        completion(nil)
+                    } else if let url = url {
+                        completion(url.absoluteString)
+                    }
+                }
+            }
+        }
+    }
+    
+    func saveDataToDatabase(uid: String, photoURL: String?) {
+        let db = Database.database().reference()
+        var userData: [String: Any] = [
+            "nombres": nombres,
+            "apellidos": apellidos,
+            "email": email,
+            "dui": dui,
+            "username": username,
+            "tipoPermiso": tipoPermiso,
+            "telefono": telefono,
+            "direccion": direccion,
+            "fechaNacimiento": formattedDate(date: fechaNacimiento),
+            "fechaCreacion": formattedDate(date: fechaCreacion),
+            "estatus": estatus,
+            "creadopor": creadopor
+        ]
+        
+        if let photoURL = photoURL {
+            userData["fotoURL"] = photoURL
+        }
+        
+        db.child("usuarios").child(uid).setValue(userData) { error, ref in
+            if let error = error {
+                print("Error al guardar datos del usuario en Realtime Database: \(error.localizedDescription)")
+            } else {
+                print("Datos del usuario guardados exitosamente en Realtime Database")
+                self.alertMessage = AlertMessage(title: "Éxito", message: "\(username) ha sido creado correctamente.")
+                self.showAlert = true
+                self.clearFields()
+            }
+        }
+    }
+}

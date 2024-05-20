@@ -1,14 +1,14 @@
 //
-//  ReporteInventarioScreen.swift
+//  DetalleProductos.swift
 //  inventoryproios
 //
-//  Created by Administrador on 15/4/24.
+//  Created by Administrador on 20/5/24.
 //
 
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct ProductCardView: View {
+struct DetalleProductCardView: View {
     let producto: ProductoModel
     
     var body: some View {
@@ -71,7 +71,7 @@ struct ProductCardView: View {
     }
 }
 
-struct ProductSearchBar: View {
+struct DetalleProductSearchBar: View {
     @Binding var text: String
 
     var body: some View {
@@ -87,14 +87,14 @@ struct ProductSearchBar: View {
     }
 }
 
-struct ReporteInventarioScreen: View {
+struct DetalleReporteInventarioScreen: View {
     @State private var productos: [ProductoModel] = []
     @State private var searchText = ""
     
     var body: some View {
         NavigationView {
             VStack {
-                ProductSearchBar(text: $searchText)
+                DetalleProductSearchBar(text: $searchText)
                     .padding(.horizontal)
 
                 ScrollView {
@@ -102,12 +102,14 @@ struct ReporteInventarioScreen: View {
                         ForEach(productos.filter {
                             searchText.isEmpty ? true : $0.nombre.localizedCaseInsensitiveContains(searchText)
                         }) { producto in
-                            ProductCardView(producto: producto)
-                                .padding(.horizontal)
+                            NavigationLink(destination: DetalleProductoView(producto: producto)) {
+                                DetalleProductCardView(producto: producto)
+                                    .padding(.horizontal)
+                            }
                         }
                     }
                 }
-                .navigationBarTitle("Stock Productos", displayMode: .inline)
+                .navigationBarTitle("Listado Productos", displayMode: .inline)
                 .navigationBarItems(trailing: HStack {
                     NavigationLink(destination: ProductosScreen()) {
                         Image(systemName: "plus")
@@ -120,7 +122,6 @@ struct ReporteInventarioScreen: View {
                             .foregroundColor(.accentColor)
                     }
                 })
-
             }
             .onAppear {
                 fetchProductos { productos in
@@ -131,8 +132,9 @@ struct ReporteInventarioScreen: View {
     }
 }
 
-struct ReporteInventarioScreen_Previews: PreviewProvider {
+
+struct DetalleReporteInventarioScreen_Previews: PreviewProvider {
     static var previews: some View {
-        ReporteInventarioScreen()
+        DetalleReporteInventarioScreen()
     }
 }

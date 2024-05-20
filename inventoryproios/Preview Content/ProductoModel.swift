@@ -9,15 +9,15 @@ import Foundation
 
 struct ProductoModel: Identifiable {
     let id: String
-    let nombre: String
-    let codigo: String
-    let descripcion: String
-    let estatus: String
-    let fechaCreacion: String
-    let precioCompra: String
-    let precioVenta: String
-    let cantidad: String
-    let unidad: String
-    let photoURL: String
-    let createdUser: String
+    var nombre: String
+    var codigo: String
+    var descripcion: String
+    var estatus: String
+    var fechaCreacion: String
+    var precioCompra: String
+    var precioVenta: String
+    var cantidad: String
+    var unidad: String
+    var photoURL: String
+    var createdUser: String
 }

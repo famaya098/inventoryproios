@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MenuView: View {
     @EnvironmentObject var sessionManager: SessionManager
-    @Binding var showMenu: Bool  // Añadido
+    @Binding var showMenu: Bool
+    @State private var showDetalleProducto = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -20,35 +21,42 @@ struct MenuView: View {
                 .foregroundColor(.white)
                 .padding(.top, 25)
             
-            // NavigationLink for Inicio
             Button(action: {
-                self.showMenu = false  // Close the menu
+                self.showMenu = false
             }) {
                 menuItem(systemName: "house.fill", title: MenuLateral.inicio)
             }
 
-            NavigationLink(destination: EmptyView()) {
+            NavigationLink(destination: DetalleReporteInventarioScreen()) {
                 menuItem(systemName: "info.circle", title: "Detalle Producto")
             }
             
-            NavigationLink(destination: EmptyView()) {
+            NavigationLink(destination: ReporteTransacScreen()) {
                 menuItem(systemName: "arrow.up.arrow.down.circle.fill", title: "Transacciones Realizadas")
             }
             
-            NavigationLink(destination: EmptyView()) {
+            NavigationLink(destination: ReporteInventarioScreen()) {
                 menuItem(systemName: "chart.bar.xaxis", title: "Reporte Stock")
             }
             
-            NavigationLink(destination: EmptyView()) {
-                menuItem(systemName: "chart.pie", title: "Reporte Transacciones")
-            }
+//            NavigationLink(destination: EmptyView()) {
+//                menuItem(systemName: "chart.pie", title: "Reporte Transacciones")
+//            }
             
-            NavigationLink(destination: CambiarContrasena()) {
-                menuItem(systemName: "key.fill", title: "Cambiar Contraseña")
-            }
-            
-            NavigationLink(destination: CreacionUsuarios()) {
-                menuItem(systemName: "person.2.fill", title: MenuLateral.administrarAcceso)
+            // Grupo "Administrar Usuarios"
+            Group {
+                Text("Administrar Usuarios")
+                    .foregroundColor(.white)
+                    .font(.headline)
+                    .padding(.top, 25)
+                
+                NavigationLink(destination: CreacionUsuarios()) {
+                    menuItem(systemName: "person.badge.plus.fill", title: "Creación Usuarios")
+                }
+
+                NavigationLink(destination: VerUsuarios()) {
+                    menuItem(systemName: "person.3.fill", title: "Ver Usuarios")
+                }
             }
 
             Spacer()

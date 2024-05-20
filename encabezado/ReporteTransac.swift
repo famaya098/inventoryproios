@@ -58,6 +58,7 @@ struct TransaccionCardView: View {
             Text("Fecha de Creación: \(transaccion.fechaCreacion)")
                 .font(.caption)
                 .foregroundColor(.secondary)
+                .bold()
             
             Divider()
         }
