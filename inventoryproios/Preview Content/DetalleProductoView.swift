@@ -78,6 +78,9 @@ struct DetalleProductoView: View {
                     Text(producto.createdUser)
                 }
 
+                
+            }
+            Section(header: Text("Foto")) {
                 if let selectedImage = selectedImage {
                     Image(uiImage: selectedImage)
                         .resizable()

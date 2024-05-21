@@ -9,6 +9,8 @@ import SwiftUI
 import FirebaseDatabase
 import SDWebImageSwiftUI
 
+
+
 struct UserSearchBar: View {
     @Binding var text: String
 
@@ -105,6 +107,7 @@ struct UserCardView: View {
 struct VerUsuarios: View {
     @State private var usuarios: [UsuarioModel] = []
     @State private var searchText = ""
+    @State private var selectedUsuario: UsuarioModel?
     
     var body: some View {
         NavigationView {
@@ -117,8 +120,10 @@ struct VerUsuarios: View {
                         ForEach(usuarios.filter {
                             searchText.isEmpty ? true : $0.nombres.localizedCaseInsensitiveContains(searchText)
                         }) { usuario in
-                            UserCardView(usuario: usuario)
-                                .padding(.horizontal)
+                            NavigationLink(destination: DetalleUsuarioView(usuario: usuario), tag: usuario, selection: $selectedUsuario) {
+                                UserCardView(usuario: usuario)
+                                    .padding(.horizontal)
+                            }
                         }
                     }
                 }
@@ -131,6 +136,8 @@ struct VerUsuarios: View {
             }
         }
     }
+    
+    
 }
 
 struct VerUsuarios_Previews: PreviewProvider {
@@ -138,3 +145,5 @@ struct VerUsuarios_Previews: PreviewProvider {
         VerUsuarios()
     }
 }
+
+

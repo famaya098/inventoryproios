@@ -21,3 +21,14 @@ struct UsuarioModel: Identifiable {
     var creadopor: String
     var estatus: String
 }
+
+
+extension UsuarioModel: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (lhs: UsuarioModel, rhs: UsuarioModel) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
