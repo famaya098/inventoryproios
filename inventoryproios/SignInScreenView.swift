@@ -63,8 +63,6 @@ struct SignInScreenView: View {
                     
                     Button(action: {
                         signIn()
-                        //isLoggedIn = true
-                        
                     }) {
                         Text("Ingresar")
                             .foregroundColor(.white)
@@ -86,64 +84,75 @@ struct SignInScreenView: View {
                 .padding(.horizontal, 25)
             }
             .navigationBarTitle("")
-                        .navigationBarBackButtonHidden(true)
-                        .navigationBarItems(leading:
-                            Button(action: {
-                                if let window = UIApplication.shared.windows.first {
-                                    window.rootViewController = UIHostingController(rootView: WelcomeScreenView().environmentObject(SessionManager()))
-                                    window.makeKeyAndVisible()
-                                }
-                            }) {
-                                Image(systemName: "arrow.left")
-                                    .foregroundColor(ColorName.light_green_color_132D39)
-                            }
-                        )
-
-                        .alert(item: $signInError) { error in
-                            Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
-                        }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading:
+                Button(action: {
+                    if let window = UIApplication.shared.windows.first {
+                        window.rootViewController = UIHostingController(rootView: WelcomeScreenView().environmentObject(SessionManager()))
+                        window.makeKeyAndVisible()
                     }
-                    .fullScreenCover(isPresented: $isLoggedIn) {
-                        // Pasa el nombre de usuario a HomePageScreenView
-                        HomePageScreenView(username: username)
-                    }
-                    .onDisappear {
-                        UserDefaults.standard.set(email, forKey: "lastLoggedInEmail")
-                    }
+                }) {
+                    Image(systemName: "arrow.left")
+                        .foregroundColor(ColorName.light_green_color_132D39)
                 }
+            )
+            .alert(item: $signInError) { error in
+                Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
+            }
+        }
+        .fullScreenCover(isPresented: $isLoggedIn) {
+            // Pasa el nombre de usuario a HomePageScreenView
+            HomePageScreenView(username: username)
+        }
+        .onDisappear {
+            UserDefaults.standard.set(email, forKey: "lastLoggedInEmail")
+        }
+    }
     
     private func signIn() {
-            
-            guard !email.isEmpty else {
-                signInError = ErrorModel(message: "Ingrese su correo electrónico.")
-                return
-            }
-            guard !password.isEmpty else {
-                signInError = ErrorModel(message: "Ingrese su contraseña.")
-                return
-            }
-            
-            Auth.auth().signIn(withEmail: email, password: password) { result, error in
-                if let error = error {
-                    signInError = ErrorModel(message: error.localizedDescription)
-                } else {
-                    guard let user = Auth.auth().currentUser else {
-                        // No se pudo obtener el usuario actual
-                        return
-                    }
-                    // Aquí obtén el nombre de usuario del usuario autenticado desde la base de datos en tiempo real de Firebase
-                    let databaseRef = Database.database().reference().child("usuarios").child(user.uid)
-                    databaseRef.observeSingleEvent(of: .value) { snapshot in
-                        if let userData = snapshot.value as? [String: Any],
-                           let username = userData["username"] as? String {
-                            self.username = username
+        guard !email.isEmpty else {
+            signInError = ErrorModel(message: "Ingrese su correo electrónico.")
+            return
+        }
+        guard !password.isEmpty else {
+            signInError = ErrorModel(message: "Ingrese su contraseña.")
+            return
+        }
+
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                self.signInError = ErrorModel(message: error.localizedDescription)
+            } else {
+                guard let user = Auth.auth().currentUser else {
+                    // No se pudo obtener el usuario actual
+                    return
+                }
+
+                // Verificar el estado del usuario desde la base de datos
+                let databaseRef = Database.database().reference().child("usuarios").child(user.uid)
+                databaseRef.observeSingleEvent(of: .value) { snapshot in
+                    if let userData = snapshot.value as? [String: Any],
+                       let estatus = userData["estatus"] as? String {
+                        switch (estatus) {
+                        case "Activo":
+                            // Obtener el nombre de usuario del usuario autenticado
+                            if let username = userData["username"] as? String {
+                                self.username = username
+                                self.isLoggedIn = true
+                            }
+                        case "Inactivo":
+                            self.signInError = ErrorModel(message: "El usuario está inactivo. Comuníquese con el administrador.")
+                        default:
+                            self.signInError = ErrorModel(message: "Error al obtener el estado del usuario.")
                         }
+                    } else {
+                        self.signInError = ErrorModel(message: "Error al obtener el estado del usuario.")
                     }
-                    isLoggedIn = true
                 }
             }
         }
     }
+}
 
 struct ErrorModel: Identifiable {
     var id = UUID()

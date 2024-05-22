@@ -7,13 +7,14 @@
 
 
 import SwiftUI
+import Firebase
+import FirebaseDatabase
 
 struct HomePageScreenView: View {
     @State var showMenu = false
-    let username: String
+    @State var username: String = ""
     
     var body: some View {
-        
         let drag = DragGesture()
             .onEnded {
                 if $0.translation.width < -100 {
@@ -32,7 +33,7 @@ struct HomePageScreenView: View {
                         .offset(x: self.showMenu ? geometry.size.width/2 : 0)
                         .disabled(self.showMenu ? true : false)
                     if self.showMenu {
-                        MenuView(showMenu: self.$showMenu)  // Updated to pass binding
+                        MenuView(showMenu: self.$showMenu)
                             .frame(width: geometry.size.width/2)
                             .transition(.move(edge: .leading))
                     }
@@ -50,6 +51,26 @@ struct HomePageScreenView: View {
                         .imageScale(.large)
                 }
             ))
+        }
+        .onAppear {
+            loadUsername()
+        }
+    }
+    
+    private func loadUsername() {
+        guard let user = Auth.auth().currentUser else {
+            self.username = "Desconocido"
+            return
+        }
+        
+        let databaseRef = Database.database().reference().child("usuarios").child(user.uid)
+        databaseRef.observeSingleEvent(of: .value) { snapshot in
+            if let userData = snapshot.value as? [String: Any],
+               let username = userData["username"] as? String {
+                self.username = username
+            } else {
+                self.username = "Desconocido"
+            }
         }
     }
 }
@@ -125,7 +146,6 @@ struct ShortcutView: View {
     }
 }
 
-
 struct ShortcutModel: Identifiable {
     let id = UUID()
     let imageName: String
@@ -136,13 +156,12 @@ struct ShortcutModel: Identifiable {
 let shortcutsData: [ShortcutModel] = [
     ShortcutModel(imageName: "imagen12", title: "Agregar Productos", destination: AnyView(ProductosScreen())),
     ShortcutModel(imageName: "imagen6", title: "Realizar Transacción", destination: AnyView(AgregarTransac())),
-
     ShortcutModel(imageName: "imagen11", title: "Reporte Stock", destination: AnyView(ReporteInventarioScreen())),
     ShortcutModel(imageName: "imagen8", title: "Reporte Transacción", destination: AnyView(ReporteTransacScreen()))
 ]
 
 struct HomePageScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        HomePageScreenView(username: "Freddy") // Pasa un nombre de usuario de ejemplo para la vista previa
+        HomePageScreenView()
     }
 }
