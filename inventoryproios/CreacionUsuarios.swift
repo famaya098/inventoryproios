@@ -197,10 +197,16 @@ struct CreacionUsuarios: View {
         self.alertMessage = nil
     }
     
+//    func formattedDate(date: Date) -> String {
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .medium
+//        formatter.timeStyle = .medium
+//        return formatter.string(from: date)
+//    }
+    
     func formattedDate(date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .medium
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: date)
     }
 

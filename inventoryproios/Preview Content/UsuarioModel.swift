@@ -23,12 +23,12 @@ struct UsuarioModel: Identifiable {
 }
 
 
-extension UsuarioModel: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-
-    static func == (lhs: UsuarioModel, rhs: UsuarioModel) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
+//extension UsuarioModel: Hashable {
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(id)
+//    }
+//
+//    static func == (lhs: UsuarioModel, rhs: UsuarioModel) -> Bool {
+//        return lhs.id == rhs.id
+//    }
+//}

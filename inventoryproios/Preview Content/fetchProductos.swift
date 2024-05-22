@@ -5,11 +5,11 @@
 //  Created by Administrador on 13/5/24.
 //
 
-import Foundation
 import Firebase
-import FirebaseDatabaseInternal
+
 
 func fetchProductos(completion: @escaping ([ProductoModel]) -> Void) {
+    
     let ref = Database.database().reference().child("productos")
     ref.observe(.value) { snapshot in
         var tempProductos: [ProductoModel] = []
@@ -29,7 +29,11 @@ func fetchProductos(completion: @escaping ([ProductoModel]) -> Void) {
                 let photoURL = value["photoURL"] as? String ?? ""
                 let createdUser = value["createdUser"] as? String ?? ""
                 
-                let producto = ProductoModel(id: id, nombre: nombre, codigo: codigo, descripcion: descripcion, estatus: estatus, fechaCreacion: fechaCreacion, precioCompra: precioCompra, precioVenta: precioVenta, cantidad: cantidad, unidad: unidad, photoURL: photoURL, createdUser: createdUser)
+                let producto = ProductoModel(id: id, 
+                                             nombre: nombre,
+                                             codigo: codigo,
+                                             descripcion: descripcion,
+                                             estatus: estatus, fechaCreacion: fechaCreacion, precioCompra: precioCompra, precioVenta: precioVenta, cantidad: cantidad, unidad: unidad, photoURL: photoURL, createdUser: createdUser)
                 tempProductos.append(producto)
             }
         }
