@@ -38,24 +38,21 @@ struct MenuView: View {
             NavigationLink(destination: ReporteInventarioScreen()) {
                 menuItem(systemName: "chart.bar.xaxis", title: "Reporte Stock")
             }
-            
-//            NavigationLink(destination: EmptyView()) {
-//                menuItem(systemName: "chart.pie", title: "Reporte Transacciones")
-//            }
-            
-            // Grupo "Administrar Usuarios"
-            Group {
-                Text("Administrar Usuarios")
-                    .foregroundColor(.white)
-                    .font(.headline)
-                    .padding(.top, 25)
-                
-                NavigationLink(destination: CreacionUsuarios()) {
-                    menuItem(systemName: "person.badge.plus.fill", title: "Creación Usuarios")
-                }
 
-                NavigationLink(destination: VerUsuarios()) {
-                    menuItem(systemName: "person.3.fill", title: "Ver Usuarios")
+            if sessionManager.userPermissionType == "Administrador" {
+                Group {
+                    Text("Administrar Usuarios")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .padding(.top, 25)
+                    
+                    NavigationLink(destination: CreacionUsuarios()) {
+                        menuItem(systemName: "person.badge.plus.fill", title: "Creación Usuarios")
+                    }
+
+                    NavigationLink(destination: VerUsuarios()) {
+                        menuItem(systemName: "person.3.fill", title: "Ver Usuarios")
+                    }
                 }
             }
 
@@ -83,6 +80,9 @@ struct MenuView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(ColorName.dark_green_color_132D39))
         .edgesIgnoringSafeArea(.all)
+        .onAppear {
+            sessionManager.fetchUserPermissionType()
+        }
     }
     
     private func menuItem(systemName: String, title: String) -> some View {
@@ -95,11 +95,5 @@ struct MenuView: View {
                 .font(.headline)
         }
         .padding(.top, 25)
-    }
-}
-
-struct MenuView_Preview: PreviewProvider {
-    static var previews: some View {
-        MenuView(showMenu: .constant(true))
     }
 }

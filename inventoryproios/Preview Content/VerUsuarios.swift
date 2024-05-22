@@ -120,10 +120,14 @@ struct VerUsuarios: View {
                         ForEach(usuarios.filter {
                             searchText.isEmpty ? true : $0.nombres.localizedCaseInsensitiveContains(searchText)
                         }) { usuario in
-                            NavigationLink(destination: DetalleUsuarioView(usuario: usuario), tag: usuario, selection: $selectedUsuario) {
+                            NavigationLink(destination: DetalleUsuarioView(usuario: usuario)) {
                                 UserCardView(usuario: usuario)
                                     .padding(.horizontal)
                             }
+//                            NavigationLink(destination: DetalleUsuarioView(usuario: usuario), tag: usuario, selection: $selectedUsuario) {
+//                                UserCardView(usuario: usuario)
+//                                    .padding(.horizontal)
+//                            }
                         }
                     }
                 }
