@@ -75,9 +75,13 @@ struct SignInScreenView: View {
                     .shadow(color: Color.black.opacity(0.08), radius: 60, x: 0.0, y: 16)
                     .padding(.vertical)
                     
-                    Text("¿Olvidaste tu contraseña?")
-                        .foregroundColor(ColorName.light_green_color_132D39)
-                        .padding(.top, 10)
+                    NavigationLink(
+                        destination: ForgotPasswordView(),
+                        label: {
+                            Text("¿Olvidaste tu contraseña?")
+                                .foregroundColor(ColorName.light_green_color_132D39)
+                                .padding(.top, 10)
+                        })
                     
                     Spacer()
                 }

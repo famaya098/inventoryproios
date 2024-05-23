@@ -74,6 +74,10 @@ struct MenuView: View {
                 menuItem(systemName: "lock.fill", title: "Cerrar Sesión")
             }
             
+            NavigationLink(destination: ForgotPasswordView()) {
+                menuItem(systemName: "lock.fill", title: "Cambiar Contraseña")
+            }
+            
             Spacer()
         }
         .padding()

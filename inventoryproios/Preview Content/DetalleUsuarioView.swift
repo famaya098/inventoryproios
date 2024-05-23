@@ -26,6 +26,7 @@ struct DetalleUsuarioView: View {
     @State private var selectedImage: UIImage? = nil
     @State private var showingImagePicker = false
     @State private var showAlert = false // Estado para controlar la alerta de eliminación
+    @State private var showSuccessAlert = false // Estado para controlar la alerta de éxito
 
     @Environment(\.presentationMode) var presentationMode
 
@@ -163,6 +164,13 @@ struct DetalleUsuarioView: View {
                 secondaryButton: .cancel()
             )
         }
+        .alert(isPresented: $showSuccessAlert) {
+            Alert(
+                title: Text("Éxito"),
+                message: Text("Los cambios se han guardado correctamente."),
+                dismissButton: .default(Text("OK"))
+            )
+        }
         .sheet(isPresented: $showingImagePicker) {
             ImagePicker(image: $selectedImage)
         }
@@ -202,6 +210,7 @@ struct DetalleUsuarioView: View {
                 print("Error updating user data: \(error.localizedDescription)")
             } else {
                 print("User data updated successfully.")
+                showSuccessAlert = true // Mostrar la alerta de éxito
             }
         }
     }
@@ -219,6 +228,8 @@ struct DetalleUsuarioView: View {
             }
             self.presentationMode.wrappedValue.dismiss()
         }
+   
+
     }
 
     func uploadPhoto(userId: String, image: UIImage, completion: @escaping (String?) -> Void) {

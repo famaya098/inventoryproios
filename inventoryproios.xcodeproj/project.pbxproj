@@ -53,6 +53,7 @@
 		83E728A42BB088F300ADCEB2 /* inventoryproiosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728A32BB088F300ADCEB2 /* inventoryproiosUITestsLaunchTests.swift */; };
 		83E728B12BB08ABD00ADCEB2 /* WelcomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728B02BB08ABD00ADCEB2 /* WelcomeScreenView.swift */; };
 		83E728B32BB08BB700ADCEB2 /* SignInScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E728B22BB08BB700ADCEB2 /* SignInScreenView.swift */; };
+		83F4C1412BFFEAA50009CD6F /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F4C1402BFFEAA40009CD6F /* ForgotPasswordView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		83E728A32BB088F300ADCEB2 /* inventoryproiosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inventoryproiosUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		83E728B02BB08ABD00ADCEB2 /* WelcomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreenView.swift; sourceTree = "<group>"; };
 		83E728B22BB08BB700ADCEB2 /* SignInScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInScreenView.swift; sourceTree = "<group>"; };
+		83F4C1402BFFEAA40009CD6F /* ForgotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 				83E7288C2BB088F300ADCEB2 /* Preview Content */,
 				83E728B02BB08ABD00ADCEB2 /* WelcomeScreenView.swift */,
 				8385C44D2BCDB8B600A97444 /* SessionManager.swift */,
+				83F4C1402BFFEAA40009CD6F /* ForgotPasswordView.swift */,
 				83E728B22BB08BB700ADCEB2 /* SignInScreenView.swift */,
 				834D88BF2BB0CB5500656167 /* HomePageScreenView.swift */,
 				81CDAE662BB6614600108DD5 /* GoogleService-Info.plist */,
@@ -401,6 +404,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83F4C1412BFFEAA50009CD6F /* ForgotPasswordView.swift in Sources */,
 				83E728B32BB08BB700ADCEB2 /* SignInScreenView.swift in Sources */,
 				83B4CD812BFD03D500CEB06F /* qweqweqw.swift in Sources */,
 				83CF06632BD38650007F0A7B /* CambiarContrasena.swift in Sources */,
