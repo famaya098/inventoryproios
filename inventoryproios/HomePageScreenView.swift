@@ -86,9 +86,10 @@ struct MainView: View {
                 .foregroundColor(.black)
                 .padding(.top, 20)
             
-            SearchBar()
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
+            Spacer()
+//            SearchBar()
+//                .padding(.horizontal, 20)
+//                .padding(.top, 10)
             
             AccessShortcuts()
                 .padding(.horizontal, 20)

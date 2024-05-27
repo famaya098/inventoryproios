@@ -219,11 +219,11 @@ struct ProductosScreen: View {
                     }
                 }
 
-                // Guardar el producto en Firebase Realtime Database y la foto en Firebase Storage
+                // guaradmos el producto en Firebase
     private func saveProduct() {
         
         
-        // Verificar que los campos obligatorios no estén vacíos
+        // validad que los campos obligatorios no estén vacíos
         guard !nombre.isEmpty && !descripcion.isEmpty && !precioCompra.isEmpty && !precioVenta.isEmpty && !cantidad.isEmpty && !unidad.isEmpty else {
             // Mostrar una alerta al usuario
             self.alertMessage = AlertMessage(title: "Error", message: "Todos los campos son obligatorios. Asegúrate de completarlos antes de guardar.")
@@ -231,7 +231,7 @@ struct ProductosScreen: View {
             return
         }
         
-        // Verificar si se ha seleccionado una imagen
+        // validadr si se ha seleccionado una imagen
         guard selectedImage != nil else {
             // Mostrar una alerta al usuario indicando que debe seleccionar una foto
             self.alertMessage = AlertMessage(title: "Error", message: "Debes seleccionar una foto antes de guardar el producto.")
@@ -274,7 +274,7 @@ struct ProductosScreen: View {
                                             "photoURL": downloadURL.absoluteString
                                                                         ]
 
-                                        // Guardar los datos del producto en la base de datos
+                                        // guardar los datos del producto en la base de datos
                                         dbRef.child("productos").child(codigo).setValue(productData) { (error, ref) in
                                             if let error = error {
                                                 print("Error al guardar los datos del producto en Firebase Realtime Database: \(error.localizedDescription)")

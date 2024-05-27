@@ -25,8 +25,8 @@ struct DetalleUsuarioView: View {
 
     @State private var selectedImage: UIImage? = nil
     @State private var showingImagePicker = false
-    @State private var showAlert = false // Estado para controlar la alerta de eliminación
-    @State private var showSuccessAlert = false // Estado para controlar la alerta de éxito
+    @State private var showAlert = false
+    @State private var showSuccessAlert = false
 
     @Environment(\.presentationMode) var presentationMode
 
@@ -55,6 +55,13 @@ struct DetalleUsuarioView: View {
                         .bold()
                     Spacer()
                     TextField("Nombre", text: $nombres)
+                }
+                
+                HStack {
+                    Text("Apellidos:")
+                        .bold()
+                    Spacer()
+                    TextField("Apellidos", text: $apellidos)
                 }
                 
                 HStack {
@@ -147,7 +154,7 @@ struct DetalleUsuarioView: View {
                 }
                 
                 Button(action: {
-                    showAlert = true // Mostrar alerta de confirmación de eliminación
+                    showAlert = true 
                 }) {
                     Image(systemName: "trash")
                         .foregroundColor(.red)
@@ -164,13 +171,13 @@ struct DetalleUsuarioView: View {
                 secondaryButton: .cancel()
             )
         }
-        .alert(isPresented: $showSuccessAlert) {
-            Alert(
-                title: Text("Éxito"),
-                message: Text("Los cambios se han guardado correctamente."),
-                dismissButton: .default(Text("OK"))
-            )
-        }
+//        .alert(isPresented: $showSuccessAlert) {
+//            Alert(
+//                title: Text("Éxito"),
+//                message: Text("Los cambios se han guardado correctamente."),
+//                dismissButton: .default(Text("OK"))
+//            )
+//        }
         .sheet(isPresented: $showingImagePicker) {
             ImagePicker(image: $selectedImage)
         }

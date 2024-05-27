@@ -46,6 +46,11 @@ struct UserCardView: View {
                         .font(.headline)
                         .foregroundColor(.primary)
                     
+                    Text(" \(usuario.tipoPermiso)")
+                        .font(.subheadline)
+                        .foregroundColor(usuario.tipoPermiso == "Administrador" ? .black : .blue)
+                        //.bold()
+                    
                     Text(usuario.email)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -75,9 +80,7 @@ struct UserCardView: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
-                Text("Tipo de Permiso: \(usuario.tipoPermiso)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                
                 
                 Text("Username: \(usuario.username)")
                     .font(.caption)
@@ -88,7 +91,7 @@ struct UserCardView: View {
                     .foregroundColor(.secondary)
                 
                 Text("Estatus: \(usuario.estatus)")
-                    .font(.caption)
+                    .font(.headline)
                     .foregroundColor(usuario.estatus == "Activo" ? .green : .red)
                     .bold()
             }
@@ -100,7 +103,7 @@ struct UserCardView: View {
         .background(Color(.systemBackground))
         .cornerRadius(10)
         .shadow(radius: 2)
-        .frame(maxWidth: .infinity, minHeight: 200) // Ajusta el tamaño mínimo aquí
+        .frame(maxWidth: .infinity, minHeight: 200) 
     }
 }
 

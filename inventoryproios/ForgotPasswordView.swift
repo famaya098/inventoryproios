@@ -24,7 +24,7 @@ struct ForgotPasswordView: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.top, 15)
-            Text("Se enviará un link para reestablecer tu contraseña")
+            Text("Se enviará un link para restablecer tu contraseña")
                 .font(.subheadline)
                 .foregroundColor(Color.gray)
                 .multilineTextAlignment(.center)
@@ -53,7 +53,7 @@ struct ForgotPasswordView: View {
                 title: Text("Mensaje"),
                 message: Text(alertMessage),
                 dismissButton: .default(Text("OK")) {
-                    // Cerrar sesión y redirigir al usuario a SignInScreenView
+                    // Cerramos sesión y redirigimos al usuario a SignInScreenView
                     sessionManager.signOut { result in
                         switch result {
                         case .success:
@@ -86,7 +86,7 @@ struct ForgotPasswordView: View {
                 return
             }
 
-            self.alertMessage = "Restablecimiento enviado. Por favor inicia sesiòn con tu nueva clave."
+            self.alertMessage = "Restablecimiento enviado. Por favor revisa tu bandeja de entrada."
             self.showAlert = true
         }
     }

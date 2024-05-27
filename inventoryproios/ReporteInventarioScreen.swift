@@ -34,20 +34,22 @@ struct ProductCardView: View {
                 Spacer()
                 
                 Text("Stock: \(producto.cantidad)")
-                    .font(.caption)
+                    .font(.headline)
                     .foregroundColor(producto.cantidad == "0" ? .red : .green)
             }
             
             HStack {
                 Text("Precio compra: $\(producto.precioCompra)")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.black)
+                    .bold()
                 
                 Spacer()
                 
                 Text("Precio venta: $\(producto.precioVenta)")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.black)
+                    .bold()
             }
             
             Divider()

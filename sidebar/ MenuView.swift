@@ -58,6 +58,10 @@ struct MenuView: View {
 
             Spacer()
             
+            NavigationLink(destination: ForgotPasswordView()) {
+                menuItem(systemName: "lock.fill", title: "Cambiar Contraseña")
+            }
+            
             Button(action: {
                 sessionManager.signOut { result in
                     switch result {
@@ -74,9 +78,7 @@ struct MenuView: View {
                 menuItem(systemName: "lock.fill", title: "Cerrar Sesión")
             }
             
-            NavigationLink(destination: ForgotPasswordView()) {
-                menuItem(systemName: "lock.fill", title: "Cambiar Contraseña")
-            }
+            
             
             Spacer()
         }

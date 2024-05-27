@@ -15,7 +15,7 @@ struct AgregarTransac: View {
     @State private var cantidad: String = ""
     @State private var tipoTransaccion: String = "Entrada"
     @State private var totalDespuesTransaccion: Int = 0
-    @State private var productNames: [String] = [] // esto almacena los nombres de los productos
+    @State private var productNames: [String] = []
     @State private var selectedProduct: String = "Seleccionar producto"
     @State private var stock: Int = 0
     @State private var createdUser: String = ""
@@ -27,7 +27,7 @@ struct AgregarTransac: View {
     @State private var showBanner = false
     @State private var bannerMessage = ""
     
-    // generar un código único de transacción
+    
     private static func generateUniqueTransactionCode() -> String {
         let uuid = UUID().uuidString
         return uuid
